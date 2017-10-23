@@ -18,7 +18,7 @@ $admin_users = [
 
 // Define all paths for your custom commands in this array (leave as empty array if not used)
 $commands_paths = [
-//    __DIR__ . '/Commands/',
+    __DIR__ . '/Commands/',
 ];
 
 // Enter your MySQL database credentials
@@ -37,7 +37,7 @@ try {
     $telegram->addCommandsPaths($commands_paths);
 
     // Enable admin users
-    $telegram->enableAdmins($admin_users);
+//    $telegram->enableAdmins($admin_users);
 
     // Enable MySQL
     //$telegram->enableMySql($mysql_credentials);
