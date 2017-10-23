@@ -67,7 +67,7 @@ $commands_paths = [
     // Requests Limiter (tries to prevent reaching Telegram API limits)
     //$telegram->enableLimiter();
 
-$post = "{\"description\":\"" . json_encode(['test']) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
+$post = "{\"description\":\"" . json_encode([123123]) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
 
 //var_dump($post);die;
 $curl = curl_init();
