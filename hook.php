@@ -11,6 +11,9 @@
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
 
+require 'config.php';
+
+use Longman\TelegramBot\Request;
 // Define all IDs of admin users in this array (leave as empty array if not used)
 $admin_users = [
 //    123,
@@ -31,10 +34,10 @@ $commands_paths = [
 
 //try {
 //    // Create Telegram API object
-//    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
+    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 //
 //    // Add commands paths containing your custom commands
-//    $telegram->addCommandsPaths($commands_paths);
+    $telegram->addCommandsPaths($commands_paths);
 
     // Enable admin users
 //    $telegram->enableAdmins($admin_users);
@@ -64,7 +67,7 @@ $commands_paths = [
     // Requests Limiter (tries to prevent reaching Telegram API limits)
     //$telegram->enableLimiter();
 
-$post = "{\"description\":\"" . json_encode(file_get_contents('php://input')) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
+$post = "{\"description\":\"" . json_encode(Request::getInput()) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
 
 //var_dump($post);die;
 $curl = curl_init();
