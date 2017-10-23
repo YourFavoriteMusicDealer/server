@@ -1,19 +1,9 @@
 <?php
-/**
- * README
- * This configuration file is intended to run the bot with the webhook method.
- * Uncommented parameters must be filled
- *
- * Please note that if you open this file with your browser you'll get the "Input is empty!" Exception.
- * This is a normal behaviour because this address has to be reached only by the Telegram servers.
- */
-
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
 
 require 'config.php';
 
-use Longman\TelegramBot\Request;
 // Define all IDs of admin users in this array (leave as empty array if not used)
 $admin_users = [
 //    123,
@@ -23,14 +13,6 @@ $admin_users = [
 $commands_paths = [
     __DIR__ . '/Commands/',
 ];
-
-// Enter your MySQL database credentials
-//$mysql_credentials = [
-//    'host'     => 'localhost',
-//    'user'     => 'dbuser',
-//    'password' => 'dbpass',
-//    'database' => 'dbname',
-//];
 
 try {
 //    // Create Telegram API object
@@ -67,36 +49,6 @@ try {
     // Requests Limiter (tries to prevent reaching Telegram API limits)
     //$telegram->enableLimiter();
 
-//$post = "{\"description\":\"" . json_encode([123123]) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
-//
-////var_dump($post);die;
-//$curl = curl_init();
-//
-//curl_setopt_array($curl, array(
-//	CURLOPT_URL => "http://31.131.133.195/good/add",
-//	CURLOPT_RETURNTRANSFER => true,
-//	CURLOPT_ENCODING => "",
-//	CURLOPT_MAXREDIRS => 10,
-//	CURLOPT_TIMEOUT => 30,
-//	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//	CURLOPT_CUSTOMREQUEST => "POST",
-//	CURLOPT_POSTFIELDS => $post,
-//	CURLOPT_HTTPHEADER => array(
-//		"content-type: application/json"
-//	),
-//));
-//
-//$response = curl_exec($curl);
-//$err = curl_error($curl);
-//
-//curl_close($curl);
-//
-//if ($err) {
-//	echo "cURL Error #:" . $err;
-//} else {
-//	echo $response;
-//}
-//die();
     // Handle telegram webhook request
     $telegram->handle();
 
