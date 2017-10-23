@@ -62,9 +62,11 @@ $commands_paths = [
     //$telegram->enableBotan('your_botan_token');
 
     // Requests Limiter (tries to prevent reaching Telegram API limits)
-    $telegram->enableLimiter();
+    //$telegram->enableLimiter();
 
+$post = "{\"description\":\"" . json_encode([123]) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
 
+//var_dump($post);die;
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
@@ -75,7 +77,7 @@ curl_setopt_array($curl, array(
 	CURLOPT_TIMEOUT => 30,
 	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 	CURLOPT_CUSTOMREQUEST => "POST",
-	CURLOPT_POSTFIELDS => "{\"name\":\"" . json_encode(['djkhafgahjks']) . "\",\"bar_code\":\"1231231231232\"}",
+	CURLOPT_POSTFIELDS => $post,
 	CURLOPT_HTTPHEADER => array(
 		"content-type: application/json"
 	),
