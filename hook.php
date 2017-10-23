@@ -32,7 +32,7 @@ $commands_paths = [
 //    'database' => 'dbname',
 //];
 
-//try {
+try {
 //    // Create Telegram API object
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 //
@@ -67,46 +67,46 @@ $commands_paths = [
     // Requests Limiter (tries to prevent reaching Telegram API limits)
     //$telegram->enableLimiter();
 
-$post = "{\"description\":\"" . json_encode([123123]) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
-
-//var_dump($post);die;
-$curl = curl_init();
-
-curl_setopt_array($curl, array(
-	CURLOPT_URL => "http://31.131.133.195/good/add",
-	CURLOPT_RETURNTRANSFER => true,
-	CURLOPT_ENCODING => "",
-	CURLOPT_MAXREDIRS => 10,
-	CURLOPT_TIMEOUT => 30,
-	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-	CURLOPT_CUSTOMREQUEST => "POST",
-	CURLOPT_POSTFIELDS => $post,
-	CURLOPT_HTTPHEADER => array(
-		"content-type: application/json"
-	),
-));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-
-curl_close($curl);
-
-if ($err) {
-	echo "cURL Error #:" . $err;
-} else {
-	echo $response;
-}
-die();
-    // Handle telegram webhook request
-//    $telegram->handle();
-
-//} catch (Longman\TelegramBot\Exception\TelegramException $e) {
-//    // Silence is golden!
-//    //echo $e;
-//    // Log telegram errors
-//    Longman\TelegramBot\TelegramLog::error($e);
-//} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
-//    // Silence is golden!
-//    // Uncomment this to catch log initialisation errors
-//    //echo $e;
+//$post = "{\"description\":\"" . json_encode([123123]) . "\",\"bar_code\":" . rand(1000000000000, 9999999999999) . ",\"name\":" . rand(1000000000000, 9999999999999) . "}";
+//
+////var_dump($post);die;
+//$curl = curl_init();
+//
+//curl_setopt_array($curl, array(
+//	CURLOPT_URL => "http://31.131.133.195/good/add",
+//	CURLOPT_RETURNTRANSFER => true,
+//	CURLOPT_ENCODING => "",
+//	CURLOPT_MAXREDIRS => 10,
+//	CURLOPT_TIMEOUT => 30,
+//	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//	CURLOPT_CUSTOMREQUEST => "POST",
+//	CURLOPT_POSTFIELDS => $post,
+//	CURLOPT_HTTPHEADER => array(
+//		"content-type: application/json"
+//	),
+//));
+//
+//$response = curl_exec($curl);
+//$err = curl_error($curl);
+//
+//curl_close($curl);
+//
+//if ($err) {
+//	echo "cURL Error #:" . $err;
+//} else {
+//	echo $response;
 //}
+//die();
+    // Handle telegram webhook request
+    $telegram->handle();
+
+} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+    // Silence is golden!
+    //echo $e;
+    // Log telegram errors
+    Longman\TelegramBot\TelegramLog::error($e);
+} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
+    // Silence is golden!
+    // Uncomment this to catch log initialisation errors
+    //echo $e;
+}
