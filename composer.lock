@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "160ee00eb7762d3a95cd51acb76bec65",
+    "content-hash": "bc61a8d22eac18f714d21ade24a44d68",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -188,17 +188,73 @@
             "time": "2017-03-20T17:10:46+00:00"
         },
         {
-            "name": "longman/telegram-bot",
-            "version": "0.50.0",
+            "name": "longman/ip-tools",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-telegram-bot/core.git",
-                "reference": "54823db1306a791830a7915072f03ff84fd7c4f3"
+                "url": "https://github.com/akalongman/php-ip-tools.git",
+                "reference": "6c050dfbf91811d14b9b3aa31fb7116eac0f0a18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-telegram-bot/core/zipball/54823db1306a791830a7915072f03ff84fd7c4f3",
-                "reference": "54823db1306a791830a7915072f03ff84fd7c4f3",
+                "url": "https://api.github.com/repos/akalongman/php-ip-tools/zipball/6c050dfbf91811d14b9b3aa31fb7116eac0f0a18",
+                "reference": "6c050dfbf91811d14b9b3aa31fb7116eac0f0a18",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpspec/phpspec": "~2.1",
+                "phpunit/phpunit": "~4.1",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Longman\\IPTools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Avtandil Kikabidze aka LONGMAN",
+                    "email": "akalongman@gmail.com",
+                    "homepage": "https://longman.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP IP Tools for manipulation with IPv4 and IPv6",
+            "homepage": "https://github.com/akalongman/php-ip-tools",
+            "keywords": [
+                "IP",
+                "Match",
+                "compare",
+                "ipv4",
+                "ipv6",
+                "mask",
+                "subnet",
+                "tools",
+                "utilities"
+            ],
+            "time": "2016-10-23T20:08:46+00:00"
+        },
+        {
+            "name": "longman/telegram-bot",
+            "version": "0.48.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-telegram-bot/core.git",
+                "reference": "8fbc070b002cd39e016527a92ede7c21cf85e73a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-telegram-bot/core/zipball/8fbc070b002cd39e016527a92ede7c21cf85e73a",
+                "reference": "8fbc070b002cd39e016527a92ede7c21cf85e73a",
                 "shasum": ""
             },
             "require": {
@@ -231,14 +287,14 @@
                     "role": "Developer"
                 }
             ],
-            "description": "PHP Telegram bot",
+            "description": "PHP telegram bot",
             "homepage": "https://github.com/php-telegram-bot/core",
             "keywords": [
                 "api",
                 "bot",
                 "telegram"
             ],
-            "time": "2017-10-17T12:09:43+00:00"
+            "time": "2017-08-26T18:18:20+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -317,6 +373,57 @@
                 "psr-3"
             ],
             "time": "2017-06-19T01:22:40+00:00"
+        },
+        {
+            "name": "php-telegram-bot/telegram-bot-manager",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-telegram-bot/telegram-bot-manager.git",
+                "reference": "e5b6047cebe6e724eaa539a526f0f4ff0bb44ddf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-telegram-bot/telegram-bot-manager/zipball/e5b6047cebe6e724eaa539a526f0f4ff0bb44ddf",
+                "reference": "e5b6047cebe6e724eaa539a526f0f4ff0bb44ddf",
+                "shasum": ""
+            },
+            "require": {
+                "longman/ip-tools": "^1.2",
+                "longman/telegram-bot": "^0.48",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "^0.9.2",
+                "phpunit/phpunit": "^6.3",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TelegramBot\\TelegramBotManager\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Armando Lüscher",
+                    "email": "armando@noplanman.ch",
+                    "homepage": "https://noplanman.ch",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP Telegram Bot Manager",
+            "homepage": "https://github.com/php-telegram-bot/telegram-bot-manager",
+            "keywords": [
+                "bot",
+                "manager",
+                "telegram"
+            ],
+            "time": "2017-08-26T18:51:29+00:00"
         },
         {
             "name": "psr/http-message",

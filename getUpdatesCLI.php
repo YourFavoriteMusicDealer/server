@@ -1,11 +1,12 @@
+#!/usr/bin/env php
 <?php
 /**
  * README
- * This configuration file is intended to run the bot with the webhook method.
+ * This configuration file is intended to run the bot with the getUpdates method.
  * Uncommented parameters must be filled
  *
- * Please note that if you open this file with your browser you'll get the "Input is empty!" Exception.
- * This is a normal behaviour because this address has to be reached only by the Telegram servers.
+ * Bash script:
+ * $ while true; do ./getUpdatesCLI.php; done
  */
 
 // Load composer
@@ -26,12 +27,12 @@ $commands_paths = [
 ];
 
 // Enter your MySQL database credentials
-//$mysql_credentials = [
-//    'host'     => 'localhost',
-//    'user'     => 'dbuser',
-//    'password' => 'dbpass',
-//    'database' => 'dbname',
-//];
+$mysql_credentials = [
+    'host'     => 'localhost',
+    'user'     => 'dbuser',
+    'password' => 'dbpass',
+    'database' => 'dbname',
+];
 
 try {
     // Create Telegram API object
@@ -44,7 +45,7 @@ try {
     $telegram->enableAdmins($admin_users);
 
     // Enable MySQL
-    //$telegram->enableMySql($mysql_credentials);
+    $telegram->enableMySql($mysql_credentials);
 
     // Logging (Error, Debug and Raw Updates)
     //Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . "/{$bot_username}_error.log");
@@ -68,16 +69,21 @@ try {
     // Requests Limiter (tries to prevent reaching Telegram API limits)
     $telegram->enableLimiter();
 
-    // Handle telegram webhook request
-    $telegram->handle();
+    // Handle telegram getUpdates request
+    $server_response = $telegram->handleGetUpdates();
 
+    if ($server_response->isOk()) {
+        $update_count = count($server_response->getResult());
+        echo date('Y-m-d H:i:s', time()) . ' - Processed ' . $update_count . ' updates';
+    } else {
+        echo date('Y-m-d H:i:s', time()) . ' - Failed to fetch updates' . PHP_EOL;
+        echo $server_response->printError();
+    }
 } catch (Longman\TelegramBot\Exception\TelegramException $e) {
-    // Silence is golden!
-    //echo $e;
+    echo $e->getMessage();
     // Log telegram errors
     Longman\TelegramBot\TelegramLog::error($e);
 } catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
-    // Silence is golden!
-    // Uncomment this to catch log initialisation errors
-    //echo $e;
+    // Catch log initialisation errors
+    echo $e->getMessage();
 }

@@ -3,6 +3,7 @@
   "type": "project",
   "require": {
     "php": ">=5.5",
-    "longman/telegram-bot": "*"
+    "longman/telegram-bot": "*",
+    "php-telegram-bot/telegram-bot-manager": "*"
   }
 }
