@@ -14,9 +14,7 @@ $commands = [
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Add you bot's API key and name
-$bot_api_key  = 'your:bot_api_key';
-$bot_username = 'username_bot';
+require 'config.php';
 
 // Define all IDs of admin users in this array (leave as empty array if not used)
 $admin_users = [

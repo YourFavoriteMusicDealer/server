@@ -11,13 +11,12 @@
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Add you bot's username (also to be used for log file names)
-$bot_username = 'username_bot'; // Without "@"
+require 'config.php';
 
 try {
     $bot = new TelegramBot\TelegramBotManager\BotManager([
         // Add you bot's API key and name
-        'api_key'      => 'your:bot_api_key',
+        'api_key'      => $bot_api_key,
         'bot_username' => $bot_username,
 
         // Secret key required to access the webhook
