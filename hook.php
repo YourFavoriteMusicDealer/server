@@ -29,12 +29,12 @@ $commands_paths = [
 //    'database' => 'dbname',
 //];
 
-try {
-    // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
-
-    // Add commands paths containing your custom commands
-    $telegram->addCommandsPaths($commands_paths);
+//try {
+//    // Create Telegram API object
+//    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
+//
+//    // Add commands paths containing your custom commands
+//    $telegram->addCommandsPaths($commands_paths);
 
     // Enable admin users
 //    $telegram->enableAdmins($admin_users);
@@ -75,7 +75,7 @@ curl_setopt_array($curl, array(
 	CURLOPT_TIMEOUT => 30,
 	CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
 	CURLOPT_CUSTOMREQUEST => "POST",
-	CURLOPT_POSTFIELDS => "{\"name\":\"" . json_encode(Request::getInput()) . "\",\"bar_code\":\"1231231231232\"}",
+	CURLOPT_POSTFIELDS => "{\"name\":\"" . json_encode(['djkhafgahjks']) . "\",\"bar_code\":\"1231231231232\"}",
 	CURLOPT_HTTPHEADER => array(
 		"content-type: application/json"
 	),
@@ -93,15 +93,15 @@ if ($err) {
 }
 die();
     // Handle telegram webhook request
-    $telegram->handle();
+//    $telegram->handle();
 
-} catch (Longman\TelegramBot\Exception\TelegramException $e) {
-    // Silence is golden!
-    //echo $e;
-    // Log telegram errors
-    Longman\TelegramBot\TelegramLog::error($e);
-} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
-    // Silence is golden!
-    // Uncomment this to catch log initialisation errors
-    //echo $e;
-}
+//} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+//    // Silence is golden!
+//    //echo $e;
+//    // Log telegram errors
+//    Longman\TelegramBot\TelegramLog::error($e);
+//} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
+//    // Silence is golden!
+//    // Uncomment this to catch log initialisation errors
+//    //echo $e;
+//}
