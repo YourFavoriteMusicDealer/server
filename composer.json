@@ -1,0 +1,8 @@
+{
+  "name": "telegram-music-bot",
+  "type": "project",
+  "require": {
+    "php": ">=5.5",
+    "longman/telegram-bot": "*"
+  }
+}
