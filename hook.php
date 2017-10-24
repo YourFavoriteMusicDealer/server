@@ -83,18 +83,18 @@ try {
 
 	$switch_element = mt_rand(0, 9) < 5 ? 'true' : 'false';
 
-	$inline_keyboard = new InlineKeyboard([
-		['text' => 'inline', 'switch_inline_query' => $switch_element],
-		['text' => 'inline current chat', 'switch_inline_query_current_chat' => $switch_element],
-	], [
-		['text' => 'callback', 'callback_data' => 'identifier'],
-		['text' => 'open url', 'url' => 'https://github.com/php-telegram-bot/core'],
-	]);
+//	$inline_keyboard = new InlineKeyboard([
+//		['text' => 'inline', 'switch_inline_query' => $switch_element],
+//		['text' => 'inline current chat', 'switch_inline_query_current_chat' => $switch_element],
+//	], [
+//		['text' => 'callback', 'callback_data' => 'identifier'],
+//		['text' => 'open url', 'url' => 'https://github.com/php-telegram-bot/core'],
+//	]);
 
 	$data = [
 		'chat_id' => $chat_id,
 		'document'    => "BAADAgADaAADC8x5SyqIdHtoWQKVAg",
-		'reply_markup' => $inline_keyboard
+//		'reply_markup' => $inline_keyboard
 	];
 
 	return Request::sendMessage($data);
@@ -102,11 +102,7 @@ try {
 
 } catch (Exception\TelegramException $e) {
     // Silence is golden!
-    //echo $e;
+    echo $e;
     // Log telegram errors
     TelegramLog::error($e);
-} catch (Exception\TelegramException $e) {
-    // Silence is golden!
-    // Uncomment this to catch log initialisation errors
-    //echo $e;
 }
