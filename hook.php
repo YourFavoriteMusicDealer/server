@@ -2,6 +2,7 @@
 namespace Longman\TelegramBot;
 
 use Longman\TelegramBot\Entities\Update;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
