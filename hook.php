@@ -84,8 +84,8 @@ try {
 	$switch_element = mt_rand(0, 9) < 5 ? 'true' : 'false';
 
 	$inline_keyboard = new InlineKeyboard([
-		['text' => '👍🏻', 'callback_data' => 'identifier'],
-		['text' => '👎🏻', 'callback_data' => 'identifier'],
+		['text' => '👍🏻 10', 'callback_data' => '/start'],
+		['text' => '👎🏻 2', 'callback_data' => '/start'],
 	]);
 
 	$data = [
