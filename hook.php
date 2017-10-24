@@ -90,11 +90,11 @@ try {
 
 	$data = [
 		'chat_id' => $chat_id,
-		'video'    => "BAADAgADaAADC8x5SyqIdHtoWQKVAg",
+		'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
 		'reply_markup' => $inline_keyboard
 	];
 
-	return Request::sendVideo($data);
+	return Request::sendAudio($data);
 
 
 } catch (Exception\TelegramException $e) {
