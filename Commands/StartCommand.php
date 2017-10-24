@@ -60,9 +60,9 @@ class StartCommand extends SystemCommand
 
         $data = [
             'chat_id' => $chat_id,
-            'text'    => $text,
+            'video'    => 'BAADAgADaAADC8x5SyqIdHtoWQKVAg',
         ];
 
-        return Request::sendMessage($data);
+        return Request::sendVideo($data);
     }
 }
