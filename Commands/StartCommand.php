@@ -63,6 +63,6 @@ class StartCommand extends SystemCommand
             'video'    => 'BAADAgADaAADC8x5SyqIdHtoWQKVAg',
         ];
 
-        return Request::sendMessage($data);
+        return Request::sendVideo($data);
     }
 }
