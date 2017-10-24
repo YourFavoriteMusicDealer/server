@@ -1,8 +1,15 @@
 <?php
+namespace Longman\TelegramBot;
+
+use Longman\TelegramBot\Entities\Update;
+
 // Load composer
 require_once __DIR__ . '/vendor/autoload.php';
 
-require 'config.php';
+$domain = 'https://jk-music-bot.herokuapp.com/';
+
+$bot_api_key  = '461745599:AAHzddZi6dUJ2o2eOOhvsP1ecgnB8WQF5iM';
+$bot_username = 'jonkofee_music_bot';
 
 // Define all IDs of admin users in this array (leave as empty array if not used)
 $admin_users = [
@@ -16,7 +23,7 @@ $commands_paths = [
 
 try {
 //    // Create Telegram API object
-    $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
+    $telegram = new Telegram($bot_api_key, $bot_username);
 //
 //    // Add commands paths containing your custom commands
     $telegram->addCommandsPaths($commands_paths);
@@ -50,14 +57,54 @@ try {
     //$telegram->enableLimiter();
 
     // Handle telegram webhook request
-    $telegram->handle();
+    //$telegram->handle();
+	if (empty($bot_username)) {
+		throw new Exception\TelegramException('Bot Username is not defined!');
+	}
 
-} catch (Longman\TelegramBot\Exception\TelegramException $e) {
+	$input = Request::getInput();
+
+//	if (empty($input)) {
+//		throw new Exception\TelegramException('Input is empty!');
+//	}
+
+	$post = json_decode($input, true);
+//	if (empty($post)) {
+//		throw new Exception\TelegramException('Invalid JSON!');
+//	}
+
+	$update = new Update($post, $bot_username);
+
+
+	$message = $update->getMessage();
+
+	$chat_id = $message->getChat()->getId();
+
+	$switch_element = mt_rand(0, 9) < 5 ? 'true' : 'false';
+
+	$inline_keyboard = new InlineKeyboard([
+		['text' => 'inline', 'switch_inline_query' => $switch_element],
+		['text' => 'inline current chat', 'switch_inline_query_current_chat' => $switch_element],
+	], [
+		['text' => 'callback', 'callback_data' => 'identifier'],
+		['text' => 'open url', 'url' => 'https://github.com/php-telegram-bot/core'],
+	]);
+
+	$data = [
+		'chat_id' => $chat_id,
+		'document'    => "BAADAgADaAADC8x5SyqIdHtoWQKVAg",
+		'reply_markup' => $inline_keyboard
+	];
+
+	return Request::sendMessage($data);
+
+
+} catch (Exception\TelegramException $e) {
     // Silence is golden!
     //echo $e;
     // Log telegram errors
-    Longman\TelegramBot\TelegramLog::error($e);
-} catch (Longman\TelegramBot\Exception\TelegramLogException $e) {
+    TelegramLog::error($e);
+} catch (Exception\TelegramException $e) {
     // Silence is golden!
     // Uncomment this to catch log initialisation errors
     //echo $e;
