@@ -12,6 +12,7 @@ namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Conversation;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
 
 /**
@@ -61,17 +62,17 @@ class GenericmessageCommand extends SystemCommand
      */
     public function execute()
     {
-        //If a conversation is busy, execute the conversation command after handling the message
-        $conversation = new Conversation(
-            $this->getMessage()->getFrom()->getId(),
-            $this->getMessage()->getChat()->getId()
-        );
+	    $inline_keyboard = new InlineKeyboard([
+		    ['text' => '👍🏻 10', 'callback_data' => '/start'],
+		    ['text' => '👎🏻 2', 'callback_data' => '/start'],
+	    ]);
 
-        //Fetch conversation command if it exists and execute it
-        if ($conversation->exists() && ($command = $conversation->getCommand())) {
-            return $this->telegram->executeCommand($command);
-        }
+	    $data = [
+		    'chat_id' => $this->getMessage()->getChat()->getId(),
+		    'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
+		    'reply_markup' => $inline_keyboard
+	    ];
 
-        return Request::emptyResponse();
+	    return Request::sendAudio($data);
     }
 }
