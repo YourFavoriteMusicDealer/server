@@ -13,6 +13,7 @@ try {
     // Create Telegram API object
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
 
+    echo "<pre>";
 	var_dump(Request::getWebhookInfo());die;
 } catch (Longman\TelegramBot\Exception\TelegramException $e) {
     echo $e->getMessage();
