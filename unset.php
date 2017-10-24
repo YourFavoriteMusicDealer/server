@@ -12,7 +12,7 @@ require 'config.php';
 try {
     // Create Telegram API object
     $telegram = new Longman\TelegramBot\Telegram($bot_api_key, $bot_username);
-var_dump(Request::getWebhookInfo());die;
+
     // Delete webhook
     $result = $telegram->deleteWebhook();
 
