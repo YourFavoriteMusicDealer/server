@@ -52,7 +52,7 @@ try {
 	//$telegram->setCommandConfig('date', ['google_api_key' => 'your_google_api_key_here']);
 
 	// Botan.io integration
-	//$telegram->enableBotan('your_botan_token');
+	$telegram->enableBotan('15c09989-c082-4a09-aa58-7529fc7e6159');
 
 	// Requests Limiter (tries to prevent reaching Telegram API limits)
 	//$telegram->enableLimiter();
