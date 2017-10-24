@@ -85,7 +85,7 @@ try {
 
 	$inline_keyboard = new InlineKeyboard([
 		['text' => 'inline'],
-		['text' => 'callback', 'callback_data' => 'identifier'],
+		['text' => 'callback'],
 	]);
 
 	$data = [
