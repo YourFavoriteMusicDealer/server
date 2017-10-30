@@ -11,7 +11,6 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
-use Longman\TelegramBot\Request;
 
 /**
  * Chosen inline result command
@@ -43,17 +42,10 @@ class ChoseninlineresultCommand extends SystemCommand
      */
     public function execute()
     {
-//	    $inline_keyboard = new InlineKeyboard([
-//		    ['text' => '👍🏻 11', 'callback_data' => ['like', 'a']],
-//		    ['text' => '👎🏻 33', 'callback_data' => 'dislike'],
-//	    ]);
+        //Information about chosen result is returned
+        //$inline_query = $this->getChosenInlineResult();
+        //$query        = $inline_query->getQuery();
 
-	    $data = [
-		    'chat_id' => $this->getMessage()->getChat()->getId(),
-		    'text'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
-//		    'reply_markup' => $inline_keyboard
-	    ];
-
-	    return Request::sendMessage($data);
+        return parent::execute();
     }
 }
