@@ -67,7 +67,7 @@ class CallbackqueryCommand extends SystemCommand
         Request::editMessageReplyMarkup([
         	'chat_id' => $callback_query->getMessage()->getChat()->getId(),
 	        'message_id' => $callback_query->getMessage()->getMessageId(),
-	        'inline_message_id' => $inline_keyboard
+	        'reply_markup' => $inline_keyboard
         ]);
 
         $data = [
