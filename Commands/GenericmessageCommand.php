@@ -50,8 +50,18 @@ class GenericmessageCommand extends SystemCommand
      */
     public function executeNoDb()
     {
-        // Do nothing
-        return Request::emptyResponse();
+	    $inline_keyboard = new InlineKeyboard([
+		    ['text' => '👍🏻 10', 'callback_data' => '/start'],
+		    ['text' => '👎🏻 2', 'callback_data' => '/start'],
+	    ]);
+
+	    $data = [
+		    'chat_id' => $this->getMessage()->getChat()->getId(),
+		    'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
+		    'reply_markup' => $inline_keyboard
+	    ];
+
+	    return Request::sendAudio($data);
     }
 
     /**
