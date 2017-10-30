@@ -50,7 +50,7 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
-//        $message = $this->getMessage();
+        $message = $this->getMessage();
 
         $count = 6;
 
@@ -71,7 +71,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => 1,
+            'text'              => serialize($message),
             'show_alert'        => true,
         ];
 
