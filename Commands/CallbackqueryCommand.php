@@ -71,7 +71,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => serialize($callback_query->getInlineMessageId()),
+            'text'              => $callback_query->getInlineMessageId(),
             'show_alert'        => true,
         ];
 
