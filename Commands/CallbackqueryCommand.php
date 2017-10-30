@@ -50,7 +50,7 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
-        $message = $this->getInlineQuery();
+//        $message = $this->getMessage();
 
         $count = 6;
 
@@ -60,18 +60,18 @@ class CallbackqueryCommand extends SystemCommand
         	$count--;
         }
 
-//        Request::editMessageReplyMarkup([
-//        	'chat_id' => $message->getChat()->getId(),
-//	        'message_id' => $message->getMessageId(),
-//	        'reply_markup' => new InlineKeyboard([
-//		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
-//		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
-//	        ])
-//        ]);
+        Request::editMessageReplyMarkup([
+        	'chat_id' => 325275444,
+	        'message_id' => 391,
+	        'reply_markup' => new InlineKeyboard([
+		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
+		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
+	        ])
+        ]);
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => (string) $message->getMessageId(),
+            'text'              => 'Я запомнил твой выбор😉',
             'show_alert'        => true,
         ];
 
