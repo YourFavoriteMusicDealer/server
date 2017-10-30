@@ -51,7 +51,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => $callback_query->getData(),
+            'text'              => $callback_query->getInlineMessageId(),
             'show_alert'        => true,
             'cache_time'        => 5,
         ];
