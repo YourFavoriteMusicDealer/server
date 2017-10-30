@@ -50,7 +50,7 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
-        $message = $this->getMessage();
+        $message = $this->getInlineQuery();
 
         $count = 6;
 
