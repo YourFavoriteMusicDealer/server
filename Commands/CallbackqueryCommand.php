@@ -71,7 +71,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => 1,
+            'text'              => $callback_query->toJson(),
             'show_alert'        => true,
         ];
 
