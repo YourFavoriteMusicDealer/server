@@ -46,35 +46,35 @@ class CallbackqueryCommand extends SystemCommand
      */
     public function execute()
     {
-        $callback_query    = $this->getCallbackQuery();
-        $callback_query_id = $callback_query->getId();
-        $callback_data     = $callback_query->getData();
-
-        $message = $this->getMessage();
-
-        $count = 6;
-
-        if ($callback_data == 'like') {
-        	$count++;
-        } elseif ($callback_data == 'dislike') {
-        	$count--;
-        }
-
-//        Request::editMessageReplyMarkup([
-//        	'chat_id' => 325275444,
-//	        'message_id' => 391,
-//	        'reply_markup' => new InlineKeyboard([
-//		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
-//		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
-//	        ])
-//        ]);
-
-        $data = [
-            'callback_query_id' => $callback_query_id,
-            'text'              => $callback_query->getMessage()->getMessageId(),
-            'show_alert'        => true,
-        ];
-
-        return Request::answerCallbackQuery($data);
+//        $callback_query    = $this->getCallbackQuery();
+//        $callback_query_id = $callback_query->getId();
+//        $callback_data     = $callback_query->getData();
+//
+//        $message = $this->getMessage();
+//
+//        $count = 6;
+//
+//        if ($callback_data == 'like') {
+//        	$count++;
+//        } elseif ($callback_data == 'dislike') {
+//        	$count--;
+//        }
+//
+////        Request::editMessageReplyMarkup([
+////        	'chat_id' => 325275444,
+////	        'message_id' => 391,
+////	        'reply_markup' => new InlineKeyboard([
+////		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
+////		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
+////	        ])
+////        ]);
+//
+//        $data = [
+//            'callback_query_id' => $callback_query_id,
+//            'text'              => $callback_query->getMessage()->getMessageId(),
+//            'show_alert'        => true,
+//        ];
+//
+//        return Request::answerCallbackQuery($data);
     }
 }

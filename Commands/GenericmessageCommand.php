@@ -57,11 +57,11 @@ class GenericmessageCommand extends SystemCommand
 
 	    $data = [
 		    'chat_id' => $this->getMessage()->getChat()->getId(),
-		    'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
+		    'text'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
 		    'reply_markup' => $inline_keyboard
 	    ];
 
-	    return Request::sendAudio($data);
+	    return Request::sendMessage($data);
     }
 
     /**
@@ -72,17 +72,17 @@ class GenericmessageCommand extends SystemCommand
      */
     public function execute()
     {
-	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => '👍🏻 11', 'callback_data' => ['like', 'a']],
-		    ['text' => '👎🏻 33', 'callback_data' => 'dislike'],
-	    ]);
-
-	    $data = [
-		    'chat_id' => $this->getMessage()->getChat()->getId(),
-		    'text'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
-		    'reply_markup' => $inline_keyboard
-	    ];
-
-	    return Request::sendMessage($data);
+//	    $inline_keyboard = new InlineKeyboard([
+//		    ['text' => '👍🏻 11', 'callback_data' => ['like', 'a']],
+//		    ['text' => '👎🏻 33', 'callback_data' => 'dislike'],
+//	    ]);
+//
+//	    $data = [
+//		    'chat_id' => $this->getMessage()->getChat()->getId(),
+//		    'text'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
+//		    'reply_markup' => $inline_keyboard
+//	    ];
+//
+//	    return Request::sendMessage($data);
     }
 }
