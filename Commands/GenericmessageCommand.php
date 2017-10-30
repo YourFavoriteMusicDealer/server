@@ -79,10 +79,10 @@ class GenericmessageCommand extends SystemCommand
 
 	    $data = [
 		    'chat_id' => $this->getMessage()->getChat()->getId(),
-		    'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
+		    'text'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
 		    'reply_markup' => $inline_keyboard
 	    ];
 
-	    return Request::sendAudio($data);
+	    return Request::sendMessage($data);
     }
 }
