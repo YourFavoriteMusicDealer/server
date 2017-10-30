@@ -60,14 +60,14 @@ class CallbackqueryCommand extends SystemCommand
         	$count--;
         }
 
-        Request::editMessageReplyMarkup([
-        	'chat_id' => $message->getChat()->getId(),
-	        'message_id' => $message->getMessageId(),
-	        'reply_markup' => new InlineKeyboard([
-		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
-		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
-	        ])
-        ]);
+//        Request::editMessageReplyMarkup([
+//        	'chat_id' => $message->getChat()->getId(),
+//	        'message_id' => $message->getMessageId(),
+//	        'reply_markup' => new InlineKeyboard([
+//		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
+//		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
+//	        ])
+//        ]);
 
         $data = [
             'callback_query_id' => $callback_query_id,
