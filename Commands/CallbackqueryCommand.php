@@ -11,6 +11,7 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
 
 /**
@@ -49,11 +50,29 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
+        $message = $this->getMessage();
+
+        $count = 6;
+
+        if ($callback_data == 'like') {
+        	$count++;
+        } elseif ($callback_data == 'dislike') {
+        	$count--;
+        }
+
+        Request::editMessageReplyMarkup([
+        	'chat_id' => $message->getChat()->getId(),
+	        'message_id' => $message->getMessageId(),
+	        'reply_markup' => new InlineKeyboard([
+		        ['text' => "👍🏻 $count", 'callback_data' => 'like'],
+		        ['text' => "👎🏻 $count", 'callback_data' => 'dislike'],
+	        ])
+        ]);
+
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => $callback_data,
+            'text'              => 'Я запомнил твой выбор😉',
             'show_alert'        => true,
-            'cache_time'        => 5,
         ];
 
         return Request::answerCallbackQuery($data);
