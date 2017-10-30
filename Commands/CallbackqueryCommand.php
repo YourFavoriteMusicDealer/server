@@ -50,11 +50,30 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
+        $count = (int) preg_replace("/[^0-9]/", '', $callback_data);
+        $action = preg_replace("/[^a-z]/", '', $callback_data);
+
+        if ($action == 'like') {
+        	$count++;
+        } else {
+        	$count--;
+        }
+
+	    $inline_keyboard = new InlineKeyboard([
+		    ['text' => "👍🏻 $count", 'callback_data' => 'like ' . $count],
+		    ['text' => "👎🏻 $count", 'callback_data' => 'dislike ' . $count],
+	    ]);
+
+        Request::editMessageReplyMarkup([
+        	'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+	        'message_id' => $callback_query->getMessage()->getMessageId(),
+	        'inline_message_id' => $inline_keyboard
+        ]);
+
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => $callback_query->getMessage()->getMessageId(),
+            'text'              => 'Хорошо, я запомнил😉',
             'show_alert'        => true,
-            'cache_time'        => 5,
         ];
 
         return Request::answerCallbackQuery($data);
