@@ -52,7 +52,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => 'Hello World!',
+            'text'              => $callback_query->getMessage()->getMessageId(),
             'show_alert'        => true,
             'cache_time'        => 5,
         ];
