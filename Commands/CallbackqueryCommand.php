@@ -51,7 +51,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $data = [
             'callback_query_id' => $callback_query_id,
-            'text'              => serialize($callback_data),
+            'text'              => json_encode($callback_query),
             'show_alert'        => true,
             'cache_time'        => 5,
         ];
