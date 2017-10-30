@@ -73,7 +73,7 @@ class GenericmessageCommand extends SystemCommand
     public function execute()
     {
 	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => '👍🏻 11', 'callback_data' => 'like'],
+		    ['text' => '👍🏻 11', 'callback_data' => ['like', 'a']],
 		    ['text' => '👎🏻 33', 'callback_data' => 'dislike'],
 	    ]);
 
