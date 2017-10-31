@@ -1,9 +1,6 @@
 {
-  "name": "telegram-music-bot",
-  "type": "project",
-  "require": {
-    "php": ">=5.5",
-    "longman/telegram-bot": "*",
-    "php-telegram-bot/telegram-bot-manager": "*"
-  }
+    "require": {
+        "phalcon/devtools": "~3.2",
+        "longman/telegram-bot": "*"
+    }
 }

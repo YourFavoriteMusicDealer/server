@@ -1,0 +1,12 @@
+#Заголовок содержит инструкции по определению типа файла и не допускает сниффинг контента
+Header set X-Content-Type-Options nosniff
+
+#Этот заголовок служит инструкцией для браузера не загружать вашу страницу в frame/iframe
+Header always append X-Frame-Options DENY
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^((?s).*)$ index.php?_url=/$1 [QSA,L]
+</IfModule>
