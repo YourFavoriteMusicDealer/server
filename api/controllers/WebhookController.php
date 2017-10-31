@@ -20,7 +20,7 @@ class WebhookController extends Controller
 
 		if (!$result->isOk()) throw new \Core\Exception\ServerError($result);
 
-		return $result->getDescription();
+		return "https://{$_SERVER['HTTP_HOST']}/webhook";
 	}
 
 	/**
