@@ -3,32 +3,46 @@
 use Phalcon\Di\FactoryDefault\Cli as CliDI;
 use Phalcon\Cli\Console as ConsoleApp;
 use Phalcon\Loader;
+use Phalcon\Db\Adapter\Pdo\Factory;
+
+require 'vendor/autoload.php';
 
 // Использование стандартного CLI контейнера для сервисов
 $di = new CliDI();
 
-/**
- * Регистрируем автозагрузчик и сообщаем ему директорию
- * для регистрации каталога задач
- */
-$loader = new Loader();
+(new Loader())
+	->registerDirs([
+		'api/controllers/',
+		'api/models/',
+		'api/validations',
+		'Core/helpers',
+		'Core/',
+		'task/'
+	])
+	->registerNamespaces([
+		'Core' => 'Core',
+	])->register();
 
-$loader->registerDirs(
-	[
-		__DIR__ . '/tasks',
-	]
+
+$di->set('config', ConfigIni::getInstance());
+
+
+$di->set(
+	'db',
+	function () {
+		return Factory::load($this->get('config')->database);
+	}
 );
 
-$loader->register();
+$config = ConfigIni::getInstance()->bot;
 
-// Загрузка файла конфигурации (если есть)
-$configFile = __DIR__ . '/config/config.php';
+$telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
+$telegram->addCommandsPaths([
+	__DIR__ . '/Commands/'
+]);
 
-if (is_readable($configFile)) {
-	$config = include $configFile;
 
-	$di->set('config', $config);
-}
+$di['bot'] = $telegram;
 
 // Создание консольного приложения
 $console = new ConsoleApp();
