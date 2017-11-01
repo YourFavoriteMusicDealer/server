@@ -45,6 +45,7 @@ class RatingMigration_120 extends Migration
 		                [
 			                'type' => Column::TYPE_BOOLEAN,
 			                'notNull' => true,
+//			                'default' => false,
 		                ]
 	                ),
 	                new Column(
@@ -52,6 +53,7 @@ class RatingMigration_120 extends Migration
 		                [
 			                'type' => Column::TYPE_BOOLEAN,
 			                'notNull' => true,
+//			                'default' => false,
 		                ]
 	                ),
                 ],
