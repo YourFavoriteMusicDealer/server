@@ -168,7 +168,7 @@ class VkTask extends Task
 			'artist' => [$track->artist],
 			'copyright' => ['jonkofee'],
 			'genre' => [$track->track_genre_id],
-			'title' => [str_replace($this->_mark, '', $track->title)]
+			'title' => [$track->title]
 		];
 
 		//Add artcover
