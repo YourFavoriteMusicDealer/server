@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fe6e91e710ce8d1085d1655561d48d0",
+    "content-hash": "d8ed8b91f23c9c255c7ec53adf8ab5aa",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -306,6 +306,42 @@
                 }
             ],
             "time": "2015-04-20T18:58:01+00:00"
+        },
+        {
+            "name": "james-heinrich/getid3",
+            "version": "v1.9.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JamesHeinrich/getID3.git",
+                "reference": "df9b441e547da1018b1be0e239bee095c9962c96"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/df9b441e547da1018b1be0e239bee095c9962c96",
+                "reference": "df9b441e547da1018b1be0e239bee095c9962c96",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "getid3/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "description": "PHP script that extracts useful information from popular multimedia file formats",
+            "homepage": "http://www.getid3.org/",
+            "keywords": [
+                "codecs",
+                "php",
+                "tags"
+            ],
+            "time": "2017-10-26T18:34:37+00:00"
         },
         {
             "name": "longman/telegram-bot",
@@ -722,6 +758,42 @@
             "time": "2017-10-19T06:13:20+00:00"
         },
         {
+            "name": "shubhamjain/php-id3",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/shubhamjain/PHP-ID3.git",
+                "reference": "d4cae5c013097ee4ecc96693b935e9128ff51d3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/shubhamjain/PHP-ID3/zipball/d4cae5c013097ee4ecc96693b935e9128ff51d3d",
+                "reference": "d4cae5c013097ee4ecc96693b935e9128ff51d3d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PhpId3": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shubham Jain",
+                    "email": "shubham.jain.1@gmail.com"
+                }
+            ],
+            "description": "A MP3 ID3 tags reader in native PHP",
+            "time": "2015-09-10T04:13:26+00:00"
+        },
+        {
             "name": "symfony/console",
             "version": "v3.3.10",
             "source": {
@@ -976,7 +1048,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "shubhamjain/php-id3": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
