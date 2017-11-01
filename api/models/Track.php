@@ -30,8 +30,15 @@ class Track extends Model
 
 	/**
 	 *
-	 * @var integer
-	 * @Column(type="integer", nullable=false)
+	 * @var string
+	 * @Column(type="string", nullable=false)
+	 */
+	public $url;
+
+	/**
+	 *
+	 * @var string
+	 * @Column(type="string", nullable=false)
 	 */
 	public $telegram_file_id;
 
