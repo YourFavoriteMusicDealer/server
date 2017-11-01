@@ -48,9 +48,16 @@ class TrackMigration_110 extends Migration
 		                ]
 	                ),
 	                new Column(
+		                'url',
+		                [
+			                'type' => Column::TYPE_TEXT,
+			                'notNull' => true,
+		                ]
+	                ),
+	                new Column(
 		                'telegram_file_id',
 		                [
-			                'type' => Column::TYPE_INTEGER,
+			                'type' => Column::TYPE_TEXT,
 			                'notNull' => true,
 		                ]
 	                ),
@@ -67,6 +74,7 @@ class TrackMigration_110 extends Migration
                     new Index('track_artist', ['artist']),
 	                new Index('track_title', ['title']),
 	                new Index('track_img', ['img']),
+	                new Index('track_url', ['url']),
 	                new Index('track_telegram_file_id', ['telegram_file_id']),
 	                new Index('track_telegram_message_id', ['telegram_message_id'])
                 ]
