@@ -1,4 +1,6 @@
 <?php
+define('ROOT_DIR', __DIR__);
+ini_set('memory_limit', '256M');
 
 use Phalcon\Di\FactoryDefault\Cli as CliDI;
 use Phalcon\Cli\Console as ConsoleApp;
@@ -70,12 +72,12 @@ try {
 } catch (\Phalcon\Exception $e) {
 	// Связанные с Phalcon вещи указываем здесь
 	// ..
-	fwrite(STDERR, $e->getMessage() . PHP_EOL);
+	fwrite(STDERR, var_dump($e->getMessage()) . PHP_EOL);
 	exit(1);
 } catch (\Throwable $throwable) {
-	fwrite(STDERR, $throwable->getMessage() . PHP_EOL);
+	fwrite(STDERR, var_dump($throwable->getMessage()) . PHP_EOL);
 	exit(1);
 } catch (\Exception $exception) {
-	fwrite(STDERR, $exception->getMessage() . PHP_EOL);
+	fwrite(STDERR, var_dump($exception->getMessage()) . PHP_EOL);
 	exit(1);
 }
