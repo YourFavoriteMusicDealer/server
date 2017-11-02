@@ -9,10 +9,17 @@ class User extends Model
 
     /**
      *
-     * @var string
-     * @Column(type="string", nullable=false)
+     * @var integer
+     * @Column(type="integer", nullable=false)
      */
-    public $username;
+    public $telegram_id;
+
+	/**
+	 *
+	 * @var string
+	 * @Column(type="string", nullable=true)
+	 */
+	public $username;
 
 	/**
 	 * Initialize method for model.
