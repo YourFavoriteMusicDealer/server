@@ -56,7 +56,7 @@ class CallbackqueryCommand extends SystemCommand
 
         $rowTrack = \Track::findFirst("telegram_message_id = $messageId");
 
-        if ($rowTrack) return false;
+        if (!$rowTrack) return false;
 
 		$rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
 
