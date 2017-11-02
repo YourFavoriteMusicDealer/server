@@ -53,6 +53,11 @@ class CallbackqueryCommand extends SystemCommand
 
         $fromId = $callback_query->getFrom()->getId();
 
+	    if (!\User::findFirst($fromId)) (new \User([
+	    	'id' => $fromId,
+		    'username' => $callback_query->getFrom()->getUsername()
+	    ]))->save();
+
         $messageId = $callback_query->getMessage()->getMessageId();
 
         $rowTrack = \Track::findFirst("telegram_message_id = $messageId");
