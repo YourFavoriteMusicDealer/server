@@ -57,6 +57,13 @@ class Track extends Model
 	public $hash;
 
 	/**
+	 *
+	 * @var string
+	 * @Column(type="string", nullable=false)
+	 */
+	public $datetime_create;
+
+	/**
 	 * Initialize method for model.
 	 */
 	public function initialize()
