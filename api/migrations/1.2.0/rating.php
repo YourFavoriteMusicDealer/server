@@ -41,7 +41,7 @@ class RatingMigration_120 extends Migration
 		                ]
 	                ),
 	                new Column(
-		                'like',
+		                'lik',
 		                [
 			                'type' => Column::TYPE_BOOLEAN,
 			                'notNull' => true,
@@ -49,7 +49,7 @@ class RatingMigration_120 extends Migration
 		                ]
 	                ),
 	                new Column(
-		                'dislike',
+		                'dislik',
 		                [
 			                'type' => Column::TYPE_BOOLEAN,
 			                'notNull' => true,
@@ -61,8 +61,8 @@ class RatingMigration_120 extends Migration
                     new Index('rating_pkey', ['id'], 'PRIMARY KEY'),
                     new Index('rating_user_id', ['user_id']),
 	                new Index('rating_track_id', ['track_id']),
-	                new Index('rating_like', ['like']),
-	                new Index('rating_dislike', ['dislike'])
+	                new Index('rating_lik', ['lik']),
+	                new Index('rating_dislik', ['dislik'])
                 ],
             ]
         );

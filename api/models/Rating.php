@@ -26,14 +26,14 @@ class Rating extends Model
 	 * @var boolean
 	 * @Column(type="boolean", nullable=false)
 	 */
-	public $like;
+	public $lik;
 
 	/**
 	 *
 	 * @var boolean
 	 * @Column(type="boolean", nullable=false)
 	 */
-	public $dislike;
+	public $dislik;
 
 	/**
 	 * Initialize method for model.
