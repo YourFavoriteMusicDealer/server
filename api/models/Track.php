@@ -68,12 +68,12 @@ class Track extends Model
 
 	public function getLike()
 	{
-		return $this->getRating('"like" = true')->count();
+		return $this->getRating('lik = true');
 	}
 
 	public function getDislike()
 	{
-		return $this->getRating('"dislike" = true')->count();
+		return $this->getRating('dislik = true')->count();
 	}
 
 }
