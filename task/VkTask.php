@@ -221,10 +221,10 @@ class VkTask extends Task
 
 	private function _normalizeMetadata(&$track)
 	{
-		if (!isset($track->album->thumb) || !$track->title || !$track->artist) throw new Exception();
+//		if (!isset($track->album->thumb) || !$track->title || !$track->artist) throw new Exception();
 		$track->title = trim(str_replace($this->_mark, '', $track->title));
 		$track->artist = trim(str_replace($this->_mark, '', $track->artist));
 
-//		if (isset($track->album) && isset($track->album->thumb)) $track->album->title = trim(str_replace($this->_mark, '', $track->album->title));
+		if (isset($track->album) && isset($track->album->thumb)) $track->album->title = trim(str_replace($this->_mark, '', $track->album->title));
 	}
 }
