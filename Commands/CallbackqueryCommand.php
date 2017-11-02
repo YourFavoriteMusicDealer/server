@@ -57,10 +57,10 @@ class CallbackqueryCommand extends SystemCommand
 //	    $rowUser = User::findFirst("telegram_id = $fromId");
 //
 //	    if (!$rowUser) {
-//		    (new \User([
-//			    'telegram_id' => $fromId,
-//			    'username' => $fromUsername
-//		    ]))->save();
+		    (new \User([
+			    'telegram_id' => $fromId,
+			    'username' => $fromUsername
+		    ]))->save();
 //	    }
 //	    else {
 //		    if (!$rowUser->username && $fromUsername || ($rowUser->username != $fromUsername)) {
