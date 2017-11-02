@@ -12,7 +12,8 @@ class VkTask extends Task
 		'(NR)',
 		'[NR]',
 		'(Новый Рэп)',
-		'[Новый Рэп]'
+		'[Новый Рэп]',
+		'/'
 	];
 
 	private $_domains = [
@@ -155,10 +156,10 @@ class VkTask extends Task
 
 		$track->hash = hash_file('md5', $track->localPath);
 
-//		if (Track::findFirst("hash = '{$track->hash}'")) {
-//			unlink($track->localPath);
-//			throw new Exception('Такая песня уже есть');
-//		}
+		if (Track::findFirst("hash = '{$track->hash}'")) {
+			unlink($track->localPath);
+			throw new Exception('Такая песня уже есть');
+		}
 
 		return $localtempfilename;
 	}
