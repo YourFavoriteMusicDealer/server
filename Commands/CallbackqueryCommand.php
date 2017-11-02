@@ -50,32 +50,45 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
-        $count = (int) preg_replace("/[^0-9]/", '', $callback_data);
-        $action = preg_replace("/[^a-z]/", '', $callback_data);
+        $fromId = $callback_query->getFrom()->getId();
 
-        if ($action == 'like') {
-        	$count++;
-        } else {
-        	$count--;
-        }
+        $messageId = $callback_query->getMessage()->getMessageId();
+
+        $rowTrack = \Track::findFirst("telegram_message_id = $messageId");
+
+        if ($rowTrack) return false;
+
+		$rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
+
+		if (!$rowRating) {
+			(new \Rating([
+				'user_id' => $fromId,
+				'track_id'=> $rowTrack->id,
+				'like' => $callback_data === 'like',
+				'dislike' => $callback_data === 'dislike'
+			]))->save();
+		} else {
+			$rowRating->like = $callback_data === 'like';
+			$rowRating->dislike = $callback_data === 'dislike';
+		}
 
 	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => "👍🏻 $count", 'callback_data' => 'like ' . $count],
-		    ['text' => "👎🏻 $count", 'callback_data' => 'dislike ' . $count],
+		    ['text' => "👍🏻 {$rowTrack->like}", 'callback_data' => 'like'],
+		    ['text' => "👎🏻 {$rowTrack->like}", 'callback_data' => 'dislike'],
 	    ]);
 
-        Request::editMessageReplyMarkup([
-        	'chat_id' => $callback_query->getMessage()->getChat()->getId(),
-	        'message_id' => $callback_query->getMessage()->getMessageId(),
-	        'reply_markup' => $inline_keyboard
-        ]);
+	    Request::editMessageReplyMarkup([
+		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+		    'message_id' => $callback_query->getMessage()->getMessageId(),
+		    'reply_markup' => $inline_keyboard
+	    ]);
 
-        $data = [
-            'callback_query_id' => $callback_query_id,
-            'text'              => 'Хорошо, я запомнил😉',
-            'show_alert'        => true,
-        ];
+	    $data = [
+		    'callback_query_id' => $callback_query_id,
+		    'text'              => 'Хорошо, я запомнил😉',
+		    'show_alert'        => true,
+	    ];
 
-        return Request::answerCallbackQuery($data);
+	    return Request::answerCallbackQuery($data);
     }
 }

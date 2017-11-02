@@ -203,12 +203,12 @@ class VkTask extends Task
 		unlink($track->localPath);
 
 		$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
-			['text' => '👍🏻', 'callback_data' => 'like 0'],
-			['text' => '👎🏻', 'callback_data' => 'dislike 0'],
+			['text' => '👍🏻', 'callback_data' => 'like'],
+			['text' => '👎🏻', 'callback_data' => 'dislike'],
 		]);
 
 		$data = [
-			'chat_id' => 325275444,
+			'chat_id' => -1001253648621,
 			'audio'  => $telegramTrackStream,
 			'reply_markup' => $inline_keyboard
 		];
