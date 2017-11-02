@@ -54,20 +54,20 @@ class CallbackqueryCommand extends SystemCommand
         $fromId = $callback_query->getFrom()->getId();
         $fromUsername = $callback_query->getFrom()->getUsername();
 
-//	    $rowUser = User::findFirst("telegram_id = $fromId");
-//
-//	    if (!$rowUser) {
+	    $rowUser = \User::findFirst("telegram_id = $fromId");
+
+	    if (!$rowUser) {
 		    (new \User([
 			    'telegram_id' => $fromId,
 			    'username' => $fromUsername
 		    ]))->save();
-//	    }
-//	    else {
-//		    if (!$rowUser->username && $fromUsername || ($rowUser->username != $fromUsername)) {
-//			    $rowUser->username = $fromUsername;
-//			    $rowUser->save();
-//		    }
-//	    }
+	    }
+	    else {
+		    if (!$rowUser->username && $fromUsername || ($rowUser->username != $fromUsername)) {
+			    $rowUser->username = $fromUsername;
+			    $rowUser->save();
+		    }
+	    }
 
         $messageId = $callback_query->getMessage()->getMessageId();
 
