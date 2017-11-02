@@ -40,9 +40,6 @@ class VkTask extends Task
 				foreach ($tracks as $track) {
 					try {
 						$this->_normalizeMetadata($track);
-
-						$oldUrl = $track->url;
-
 						$this->_fileWithMetatag($track);
 
 						$response = $this->_sendTrack($track);
@@ -60,7 +57,6 @@ class VkTask extends Task
 							'artist' => $track->artist,
 							'title' => $track->title,
 							'img' => $track->album->thumb->photo_600,
-							'url' => $oldUrl,
 							'telegram_file_id' => $track_id,
 							'telegram_message_id' => $message_id,
 							'hash' => $track->hash
