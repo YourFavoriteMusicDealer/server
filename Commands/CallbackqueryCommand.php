@@ -70,6 +70,8 @@ class CallbackqueryCommand extends SystemCommand
 		} else {
 			$rowRating->like = $callback_data === 'like';
 			$rowRating->dislike = $callback_data === 'dislike';
+
+			$rowRating->save();
 		}
 
 	    $inline_keyboard = new InlineKeyboard([
