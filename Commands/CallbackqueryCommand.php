@@ -74,10 +74,10 @@ class CallbackqueryCommand extends SystemCommand
 
 			$rowRating->save();
 		}
-	    error_log("TEST");
+
 	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => "👍🏻 {$rowTrack->like}", 'callback_data' => 'like'],
-		    ['text' => "👎🏻 {$rowTrack->like}", 'callback_data' => 'dislike'],
+		    ['text' => "👍🏻 1", 'callback_data' => 'like'],
+		    ['text' => "👎🏻 2", 'callback_data' => 'dislike'],
 	    ]);
 
 	    Request::editMessageReplyMarkup([
