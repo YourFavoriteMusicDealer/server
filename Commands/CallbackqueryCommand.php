@@ -74,7 +74,7 @@ class CallbackqueryCommand extends SystemCommand
 
 			$rowRating->save();
 		}
-	    error_log($rowTrack->like);
+	    error_log("TEST");
 	    $inline_keyboard = new InlineKeyboard([
 		    ['text' => "👍🏻 {$rowTrack->like}", 'callback_data' => 'like'],
 		    ['text' => "👎🏻 {$rowTrack->like}", 'callback_data' => 'dislike'],
