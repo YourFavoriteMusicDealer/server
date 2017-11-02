@@ -61,7 +61,8 @@ class VkTask extends Task
 							'img' => $track->album->thumb->photo_600,
 							'url' => $oldUrl,
 							'telegram_file_id' => $track_id,
-							'telegram_message_id' => $message_id
+							'telegram_message_id' => $message_id,
+							'hash' => $track->hash
 						]);
 
 						$newTrackInDB->save();
@@ -151,6 +152,8 @@ class VkTask extends Task
 			}
 			fclose($fp_remote);
 		}
+
+		$track->hash = hash_file('md5', $track->localPath);
 
 		return $localtempfilename;
 	}

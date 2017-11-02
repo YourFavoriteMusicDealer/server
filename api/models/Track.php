@@ -50,6 +50,13 @@ class Track extends Model
 	public $telegram_message_id;
 
 	/**
+	 *
+	 * @var string
+	 * @Column(type="string", nullable=false)
+	 */
+	public $hash;
+
+	/**
 	 * Initialize method for model.
 	 */
 	public function initialize()
