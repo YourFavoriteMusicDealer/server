@@ -58,15 +58,9 @@ class StartCommand extends SystemCommand
 
         $chat_id = $message->getChat()->getId();
 
-	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => '👍🏻 10', 'callback_data' => '/start'],
-		    ['text' => '👎🏻 2', 'callback_data' => '/start'],
-	    ]);
-
         $data = [
             'chat_id' => $chat_id,
             'video'    => 'BAADAgADaAADC8x5SyqIdHtoWQKVAg',
-	        'reply_markup' => $inline_keyboard
         ];
 
         return Request::sendVideo($data);

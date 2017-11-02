@@ -50,17 +50,15 @@ class GenericmessageCommand extends SystemCommand
      */
     public function executeNoDb()
     {
-	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => '👍🏻 ', 'callback_data' => 'like 0'],
-		    ['text' => '👎🏻 ', 'callback_data' => 'dislike 0'],
-	    ]);
+	    $message = $this->getMessage();
+
+	    $chat_id = $message->getChat()->getId();
 
 	    $data = [
-		    'chat_id' => $this->getMessage()->getChat()->getId(),
-		    'audio'    => "CQADAgADcQADC8x5S0Nip46xdLbpAg",
-		    'reply_markup' => $inline_keyboard
+		    'chat_id' => $chat_id,
+		    'video'    => 'BAADAgADaAADC8x5SyqIdHtoWQKVAg',
 	    ];
 
-	    return Request::sendAudio($data);
+	    return Request::sendVideo($data);
     }
 }
