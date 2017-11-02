@@ -65,12 +65,12 @@ class CallbackqueryCommand extends SystemCommand
 			(new \Rating([
 				'user_id' => $fromId,
 				'track_id'=> $rowTrack->id,
-				'like' => $callback_data === 'like',
-				'dislike' => $callback_data === 'dislike'
+				'lik' => $callback_data === 'like',
+				'dislik' => $callback_data === 'dislike'
 			]))->save();
 		} else {
-			$rowRating->like = $callback_data === 'like';
-			$rowRating->dislike = $callback_data === 'dislike';
+			$rowRating->lik = $callback_data === 'like';
+			$rowRating->dislik = $callback_data === 'dislike';
 
 			$rowRating->save();
 		}
