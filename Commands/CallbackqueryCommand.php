@@ -10,6 +10,7 @@
 
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
+use Core\Enum\Exception;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
@@ -73,7 +74,7 @@ class CallbackqueryCommand extends SystemCommand
 
 			$rowRating->save();
 		}
-
+throw new Exception({$rowTrack->like});
 	    $inline_keyboard = new InlineKeyboard([
 		    ['text' => "👍🏻 {$rowTrack->like}", 'callback_data' => 'like'],
 		    ['text' => "👎🏻 {$rowTrack->like}", 'callback_data' => 'dislike'],
