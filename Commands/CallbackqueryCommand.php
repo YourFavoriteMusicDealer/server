@@ -54,14 +54,14 @@ class CallbackqueryCommand extends SystemCommand
         $fromId = $callback_query->getFrom()->getId();
         $fromUsername = $callback_query->getFrom()->getUsername();
 
-        $rowUser = User::findFirst($fromId);
+//        $rowUser = User::findFirst($fromId);
 
-	    if (!$rowUser) {
-	    	(new \User([
-			    'id' => $fromId,
-			    'username' => $fromUsername
-		    ]))->save();
-	    }
+//	    if (!$rowUser) {
+//	    	(new \User([
+//			    'id' => $fromId,
+//			    'username' => $fromUsername
+//		    ]))->save();
+//	    }
 //	    else {
 //	    	if (!$rowUser->username && $fromUsername) {
 //	    		$rowUser->username = $fromUsername;
