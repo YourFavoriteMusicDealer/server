@@ -67,14 +67,7 @@ class TrackMigration_110 extends Migration
 			                'type' => Column::TYPE_INTEGER,
 			                'notNull' => true,
 		                ]
-	                ),
-	                new Column(
-		                'vk_id',
-		                [
-			                'type' => Column::TYPE_INTEGER,
-			                'notNull' => true,
-		                ]
-	                ),
+	                )
                 ],
                 'indexes' => [
                     new Index('track_pkey', ['id'], 'PRIMARY KEY'),
@@ -83,8 +76,7 @@ class TrackMigration_110 extends Migration
 	                new Index('track_img', ['img']),
 	                new Index('track_url', ['url']),
 	                new Index('track_telegram_file_id', ['telegram_file_id']),
-	                new Index('track_telegram_message_id', ['telegram_message_id']),
-	                new Index('track_vk_id', ['vk_id'])
+	                new Index('track_telegram_message_id', ['telegram_message_id'])
                 ]
             ]
         );
