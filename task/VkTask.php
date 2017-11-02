@@ -22,6 +22,7 @@ class VkTask extends Task
 	public function syncAction()
 	{
 		$this->_id3 = new getID3;
+		$this->_id3->setOption(array('encoding'=>'UTF-8'));
 
 		foreach ($this->_domains as $domain) {
 			$wall = $this->_getWall($domain);
