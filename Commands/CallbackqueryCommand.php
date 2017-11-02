@@ -76,8 +76,8 @@ class CallbackqueryCommand extends SystemCommand
 		}
 
 	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => "👍🏻 1", 'callback_data' => 'like'],
-		    ['text' => "👎🏻 2", 'callback_data' => 'dislike'],
+		    ['text' => "👍🏻 {$rowTrack->likes}", 'callback_data' => 'like'],
+		    ['text' => "👎🏻 {$rowTrack->dislikes}", 'callback_data' => 'dislike'],
 	    ]);
 
 	    Request::editMessageReplyMarkup([

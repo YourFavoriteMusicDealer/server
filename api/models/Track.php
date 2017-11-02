@@ -66,12 +66,12 @@ class Track extends Model
 		$this->hasMany('id', 'Rating', 'track_id', ['alias' => 'Rating']);
 	}
 
-	public function getLike()
+	public function getLikes()
 	{
-		return $this->getRating('lik = true');
+		return $this->getRating('lik = true')->count();
 	}
 
-	public function getDislike()
+	public function getDislikes()
 	{
 		return $this->getRating('dislik = true')->count();
 	}
