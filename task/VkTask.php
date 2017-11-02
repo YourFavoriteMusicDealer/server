@@ -208,7 +208,7 @@ class VkTask extends Task
 		]);
 
 		$data = [
-			'chat_id' => -1001253648621,
+			'chat_id' => '@jonkofee_music',
 			'audio'  => $telegramTrackStream,
 			'reply_markup' => $inline_keyboard
 		];
