@@ -180,16 +180,18 @@ class VkTask extends Task
 			'title' => [$track->title]
 		];
 
-		//Add artcover
-		$img = file_get_contents($track->album->thumb->photo_600);
-		$exif_imagetype = exif_imagetype($track->album->thumb->photo_600);
+		if (isset($track->album->thumb)) {
+			//Add artcover
+			$img = file_get_contents($track->album->thumb->photo_600);
+			$exif_imagetype = exif_imagetype($track->album->thumb->photo_600);
 
-		$tagData['attached_picture'][] = [
-			'data' => $img,
-			'picturetypeid' => 'jpg',
-			'description' => "{$track->artist} - {$track->title}",
-			'mime' => image_type_to_mime_type($exif_imagetype)
-		];
+			$tagData['attached_picture'][] = [
+				'data' => $img,
+				'picturetypeid' => 'jpg',
+				'description' => "{$track->artist} - {$track->title}",
+				'mime' => image_type_to_mime_type($exif_imagetype)
+			];
+		}
 
 		$tagwriter->tag_data = $tagData;
 
