@@ -62,12 +62,12 @@ class CallbackqueryCommand extends SystemCommand
 			    'username' => $fromUsername
 		    ]))->save();
 	    }
-	    else {
-		    if (!$rowUser->username && $fromUsername || ($rowUser->username != $fromUsername)) {
-			    $rowUser->username = $fromUsername;
-			    $rowUser->save();
-		    }
-	    }
+//	    else {
+//		    if (!$rowUser->username && $fromUsername || ($rowUser->username != $fromUsername)) {
+//			    $rowUser->username = $fromUsername;
+//			    $rowUser->save();
+//		    }
+//	    }
 
         $messageId = $callback_query->getMessage()->getMessageId();
 
