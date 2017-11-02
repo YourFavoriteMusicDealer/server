@@ -223,6 +223,6 @@ class VkTask extends Task
 		$track->title = trim(str_replace($this->_mark, '', $track->title));
 		$track->artist = trim(str_replace($this->_mark, '', $track->artist));
 
-		if (isset($track->album) && isset($track->album->thumb)) $track->album->title = trim(str_replace($this->_mark, '', $track->album->title));
+//		if (isset($track->album) && isset($track->album->thumb)) $track->album->title = trim(str_replace($this->_mark, '', $track->album->title));
 	}
 }
