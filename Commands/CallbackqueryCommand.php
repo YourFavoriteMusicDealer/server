@@ -54,19 +54,19 @@ class CallbackqueryCommand extends SystemCommand
         $fromId = $callback_query->getFrom()->getId();
         $fromUsernaem = $callback_query->getFrom()->getUsername();
 
-        $rowUser = User::findFirst($fromId);
-
-	    if (!$rowUser) {
-	    	(new \User([
-			    'id' => $fromId,
-			    'username' => $fromUsernaem
-		    ]))->save();
-	    } else {
-	    	if (!$rowUser->username && $fromUsernaem) {
-	    		$rowUser->username = $fromUsernaem;
-	    		$rowUser->save();
-		    }
-	    }
+//        $rowUser = User::findFirst($fromId);
+//
+//	    if (!$rowUser) {
+//	    	(new \User([
+//			    'id' => $fromId,
+//			    'username' => $fromUsernaem
+//		    ]))->save();
+//	    } else {
+//	    	if (!$rowUser->username && $fromUsernaem) {
+//	    		$rowUser->username = $fromUsernaem;
+//	    		$rowUser->save();
+//		    }
+//	    }
 
         $messageId = $callback_query->getMessage()->getMessageId();
 
