@@ -11,7 +11,9 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
+use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultArticle;
+use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio;
 use Longman\TelegramBot\Entities\InputMessageContent\InputTextMessageContent;
 use Longman\TelegramBot\Request;
 
@@ -51,30 +53,41 @@ class InlinequeryCommand extends SystemCommand
 		$data    = ['inline_query_id' => $inline_query->getId()];
 		$results = [];
 
+		$inline_keyboard = new InlineKeyboard([
+			['text' => "👍🏻 1", 'callback_data' => 'like'],
+			['text' => "👎🏻 2", 'callback_data' => 'dislike'],
+		]);
+
 		if ($query !== '') {
 			$articles = [
 				[
+					'type'                  => 'audio',
+					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
 					'id'                    => '001',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'title'                 => 'Nas',
+					'description'           => 'Made You Look',
+					'reply_markup'          => $inline_keyboard,
 				],
 				[
+					'type'                  => 'audio',
+					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
 					'id'                    => '002',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'title'                 => 'Nas',
+					'description'           => 'Made You Look',
+					'reply_markup'          => $inline_keyboard,
 				],
 				[
+					'type'                  => 'audio',
+					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
 					'id'                    => '003',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'title'                 => 'Nas',
+					'description'           => 'Made You Look',
+					'reply_markup'          => $inline_keyboard,
 				],
 			];
 
 			foreach ($articles as $article) {
-				$results[] = new InlineQueryResultArticle($article);
+				$results[] = new InlineQueryResultAudio($article);
 			}
 		}
 
