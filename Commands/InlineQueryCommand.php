@@ -16,6 +16,7 @@ use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultArticle;
 use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio;
 use Longman\TelegramBot\Entities\InputMessageContent\InputTextMessageContent;
 use Longman\TelegramBot\Request;
+use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * Inline query command
@@ -56,10 +57,10 @@ class InlinequeryCommand extends SystemCommand
 					GROUP BY track.id";
 
 
-		$arrTracks =  (new Phalcon\Mvc\Model\Resultset\Simple(
+		$arrTracks =  (new Simple(
 			null,
 			null,
-			(new Track())->getReadConnection()->query($sqlQuery)
+			(new \Track())->getReadConnection()->query($sqlQuery)
 		))->toArray();
 
 		if (!$arrTracks) return false;
