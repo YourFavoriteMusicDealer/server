@@ -36,6 +36,13 @@ class Rating extends Model
 	public $dislik;
 
 	/**
+	 *
+	 * @var string
+	 * @Column(type="string", nullable=false)
+	 */
+	public $datetime_create;
+
+	/**
 	 * Initialize method for model.
 	 */
 	public function initialize()
@@ -45,6 +52,11 @@ class Rating extends Model
 		$this->belongsTo('user_id', '\User', 'id', ['alias' => 'User']);
 
 		$this->belongsTo('track_id', '\Track', 'id', ['alias' => 'Track']);
+	}
+	
+	public function beforeSave()
+	{
+		$this->datetime_create = 'now';
 	}
 
 }
