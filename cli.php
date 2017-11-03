@@ -27,7 +27,9 @@ $di = new CliDI();
 	])->register();
 
 
-$di->set('config', \ConfigIni::getInstance());
+$config = new \Phalcon\Config\Adapter\Ini('api/config/config.ini');
+
+$di->set('config', $config);
 
 
 $di->set(
@@ -36,8 +38,6 @@ $di->set(
 		return Factory::load($this->get('config')->database);
 	}
 );
-
-$config = \ConfigIni::getInstance()->bot;
 
 $telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
 $telegram->addCommandsPaths([
