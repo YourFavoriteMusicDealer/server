@@ -1,5 +1,7 @@
 <?php
 
+require 'Singleton.php';
+
 class ConfigIni extends \Phalcon\Config\Adapter\Ini
 {
 
