@@ -74,9 +74,9 @@ class InlinequeryCommand extends SystemCommand
 				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
 			]);
 
-			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
+			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultCachedAudio([
 				'type'                  => 'audio',
-				'audio_url'             => $track['telegram_file_id'],
+				'audio_url'             => 'CQADAgADowADbIvgS9pmoXeOe3LwAg',
 				'id'                    => $track['id'],
 				'title'                 => $track['artist'],
 				'description'           => $track['title'],
