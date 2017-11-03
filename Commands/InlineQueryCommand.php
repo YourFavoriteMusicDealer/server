@@ -67,6 +67,9 @@ class InlinequeryCommand extends SystemCommand
 					'title'                 => 'Nas',
 					'description'           => 'Made You Look',
 					'reply_markup'          => $inline_keyboard,
+					'caption'               => 'caption',
+					'performer'             => 'performer',
+					'audio_duration'        => 200
 				],
 				[
 					'type'                  => 'audio',
@@ -75,6 +78,9 @@ class InlinequeryCommand extends SystemCommand
 					'title'                 => 'Nas',
 					'description'           => 'Made You Look',
 					'reply_markup'          => $inline_keyboard,
+					'caption'               => 'caption',
+					'performer'             => 'performer',
+					'audio_duration'        => 200
 				],
 				[
 					'type'                  => 'audio',
@@ -83,6 +89,9 @@ class InlinequeryCommand extends SystemCommand
 					'title'                 => 'Nas',
 					'description'           => 'Made You Look',
 					'reply_markup'          => $inline_keyboard,
+					'caption'               => 'caption',
+					'performer'             => 'performer',
+					'audio_duration'        => 200
 				],
 			];
 
