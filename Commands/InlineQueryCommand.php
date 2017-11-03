@@ -63,7 +63,7 @@ class InlinequeryCommand extends SystemCommand
 			(new \Track())->getReadConnection()->query($sqlQuery)
 		))->toArray();
 
-		if (!$arrTracks) return false;
+//		if (!$arrTracks) return false;
 
 		$data    = ['inline_query_id' => $inline_query->getId()];
 		$results = [];
