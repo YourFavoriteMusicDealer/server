@@ -82,6 +82,7 @@ class InlinequeryCommand extends SystemCommand
 				'title'                 => $track['artist'],
 				'description'           => $track['title'],
 				'reply_markup'          => $inline_keyboard,
+				'thumb_url'             => 'https://sun9-16.userapi.com/c639717/v639717770/45a20/sllVCVILq7w.jpg'
 			]);
 		}
 
