@@ -54,7 +54,8 @@ class InlinequeryCommand extends SystemCommand
 		$sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
 					LEFT JOIN rating ON track.id = rating.track_id
 					WHERE LOWER(track.artist) LIKE LOWER('%$query%') OR LOWER(track.title) LIKE LOWER('%$query%')
-					GROUP BY track.id";
+					GROUP BY track.id
+					ORDER BY likes desc";
 
 
 		$arrTracks =  (new Simple(
