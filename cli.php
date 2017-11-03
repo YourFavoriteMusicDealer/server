@@ -26,7 +26,7 @@ $di = new CliDI();
 	])->register();
 
 
-$di->set('config', ConfigIni::getInstance());
+$di->set('config', \ConfigIni::getInstance());
 
 
 $di->set(
@@ -36,7 +36,7 @@ $di->set(
 	}
 );
 
-$config = ConfigIni::getInstance()->bot;
+$config = \ConfigIni::getInstance()->bot;
 
 $telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
 $telegram->addCommandsPaths([
