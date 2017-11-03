@@ -8,6 +8,7 @@ use Phalcon\Loader;
 use Phalcon\Db\Adapter\Pdo\Factory;
 
 require 'vendor/autoload.php';
+require 'Core/ConfigIni.php';
 
 // Использование стандартного CLI контейнера для сервисов
 $di = new CliDI();
