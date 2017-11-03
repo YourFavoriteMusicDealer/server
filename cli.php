@@ -39,7 +39,7 @@ $di->set(
 	}
 );
 
-$telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
+$telegram = new \Longman\TelegramBot\Telegram($config->bot->token, $config->bot->username);
 $telegram->addCommandsPaths([
 	__DIR__ . '/Commands/'
 ]);
