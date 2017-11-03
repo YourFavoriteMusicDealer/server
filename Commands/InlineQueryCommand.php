@@ -50,55 +50,39 @@ class InlinequeryCommand extends SystemCommand
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
+		$sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
+					LEFT JOIN rating ON track.id = rating.track_id
+					WHERE LOWER(track.artist) LIKE LOWER('%$query%') OR LOWER(track.title) LIKE LOWER('%$query%')
+					GROUP BY track.id";
+
+
+		$arrTracks =  (new Phalcon\Mvc\Model\Resultset\Simple(
+			null,
+			null,
+			(new Track())->getReadConnection()->query($sqlQuery)
+		))->toArray();
+
+		if (!$arrTracks) return false;
+
 		$data    = ['inline_query_id' => $inline_query->getId()];
 		$results = [];
 
-		$inline_keyboard = new InlineKeyboard([
-			['text' => "👍🏻 1", 'callback_data' => 'like'],
-			['text' => "👎🏻 2", 'callback_data' => 'dislike'],
-		]);
+		foreach ($arrTracks as $track) {
+			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
+				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+			]);
 
-		if ($query !== '') {
-			$articles = [
-				[
-					'type'                  => 'audio',
-					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
-					'id'                    => '001',
-					'title'                 => 'Nas',
-					'description'           => 'Made You Look',
-					'reply_markup'          => $inline_keyboard,
-//					'caption'               => 'caption',
-//					'performer'             => 'performer',
-//					'audio_duration'        => 200
-				],
-				[
-					'type'                  => 'audio',
-					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
-					'id'                    => '002',
-					'title'                 => 'Nas',
-					'description'           => 'Made You Look',
-					'reply_markup'          => $inline_keyboard,
-//					'caption'               => 'caption',
-//					'performer'             => 'performer',
-//					'audio_duration'        => 200
-				],
-				[
-					'type'                  => 'audio',
-					'audio_url'             => 'CQADAgADdwADkwbYSzvvt6MfaW7QAg',
-					'id'                    => '003',
-					'title'                 => 'Nas',
-					'description'           => 'Made You Look',
-					'reply_markup'          => $inline_keyboard,
-//					'caption'               => 'caption',
-//					'performer'             => 'performer',
-//					'audio_duration'        => 200
-				],
-			];
-
-			foreach ($articles as $article) {
-				$results[] = new InlineQueryResultAudio($article);
-			}
+			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
+				'type'                  => 'audio',
+				'audio_url'             => $track['telegram_file_id'],
+				'id'                    => $track['id'],
+				'title'                 => $track['artist'],
+				'description'           => $track['title'],
+				'reply_markup'          => $inline_keyboard,
+			]);
 		}
+
 
 		$data['results'] = '[' . implode(',', $results) . ']';
 
