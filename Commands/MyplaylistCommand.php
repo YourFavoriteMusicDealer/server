@@ -46,7 +46,7 @@ class MyplaylistCommand extends SystemCommand
 
 	    $sqlQuery = "SELECT track.telegram_message_id FROM rating
 					LEFT JOIN track ON track.id = rating.track_id
-					WHERE user_id = 123 AND lik = TRUE";
+					WHERE user_id = $chat_id AND lik = TRUE";
 
 
 	    $arr =  (new Simple(
