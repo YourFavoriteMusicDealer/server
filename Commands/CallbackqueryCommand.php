@@ -67,7 +67,8 @@ class CallbackqueryCommand extends SystemCommand
 				'user_id' => $fromId,
 				'track_id'=> $rowTrack->id,
 				'lik' => $callback_data === 'like',
-				'dislik' => $callback_data === 'dislike'
+				'dislik' => $callback_data === 'dislike',
+				'username' => $fromUsername
 			]))->save();
 		} else {
 			$rowRating->lik = $callback_data === 'like';
