@@ -49,6 +49,15 @@ class CallbackqueryCommand extends SystemCommand
     {
         $callback_query    = $this->getCallbackQuery();
         $callback_query_id = $callback_query->getId();
+
+	    $data = [
+		    'callback_query_id' => $callback_query_id,
+		    'text'              => 'Хорошо, я запомнил😉',
+		    'show_alert'        => true,
+	    ];
+
+	    return Request::answerCallbackQuery($data);
+	    
         $callback_data     = $callback_query->getData();
 
         $fromId = $callback_query->getFrom()->getId();
