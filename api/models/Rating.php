@@ -49,8 +49,6 @@ class Rating extends Model
 	{
 		parent::initialize();
 
-		$this->belongsTo('user_id', '\User', 'id', ['alias' => 'User']);
-
 		$this->belongsTo('track_id', '\Track', 'id', ['alias' => 'Track']);
 	}
 	
