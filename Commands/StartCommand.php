@@ -61,7 +61,7 @@ class StartCommand extends SystemCommand
         $data = [
             'chat_id' => $chat_id,
             'video'    => 'BAADAgADaAADC8x5SyqIdHtoWQKVAg',
-	        'caption' => 'test'
+	        'caption' => $message->getText()
         ];
 
         return Request::sendVideo($data);
