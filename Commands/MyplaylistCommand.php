@@ -2,10 +2,9 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
-use Longman\TelegramBot\Request;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
-class StartCommand extends SystemCommand
+class MyplaylistCommand extends SystemCommand
 {
     /**
      * @var string
