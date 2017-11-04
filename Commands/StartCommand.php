@@ -57,7 +57,7 @@ class StartCommand extends SystemCommand
         $message = $this->getMessage();
 
         if ($message->getText(true) === 'myplaylist') {
-	        (new MyplaylistCommand())->execute();
+	        $this->telegram->executeCommand('myplaylist');
 	        return;
         }
 
