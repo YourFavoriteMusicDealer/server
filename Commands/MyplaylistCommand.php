@@ -42,11 +42,11 @@ class MyplaylistCommand extends SystemCommand
     {
 	    $message = $this->getMessage();
 
-	    $chat_id = $message->getFrom()->getId();
+	    $user_id = $message->getFrom()->getId();
 
 	    $sqlQuery = "SELECT track.telegram_message_id FROM rating
 					LEFT JOIN track ON track.id = rating.track_id
-					WHERE user_id = $chat_id AND lik = TRUE";
+					WHERE user_id = $user_id AND lik = TRUE";
 
 
 	    $arr =  (new Simple(
@@ -57,7 +57,7 @@ class MyplaylistCommand extends SystemCommand
 
 	    if (!$arr) {
 	    	Request::sendMessage([
-	    		'chat_id' => $chat_id,
+	    		'chat_id' => $message->getChat()->getId(),
 			    'text' => 'Нет избранных песен. Для того, чтобы они появились нужно поставть 👍🏻 на понравившейся песне в нашем канале',
 			    'reply_markup' => new \Longman\TelegramBot\Entities\InlineKeyboard([
 			    	['text' => "Перейти в канал", 'url' => 'https://t.me/jonkofee_music']
@@ -67,7 +67,7 @@ class MyplaylistCommand extends SystemCommand
 
 	    foreach ($arr as $item) {
 		    $data = [
-			    'chat_id' => $chat_id,
+			    'chat_id' => $message->getChat()->getId(),
 			    'from_chat_id' => '@jonkofee_music',
 			    'message_id' => $item['telegram_message_id'],
 			    'disable_notification' => true
