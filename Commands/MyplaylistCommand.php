@@ -75,5 +75,7 @@ class MyplaylistCommand extends SystemCommand
 
 		    \Longman\TelegramBot\Request::forwardMessage($data);
 	    }
+
+	    return true;
     }
 }
