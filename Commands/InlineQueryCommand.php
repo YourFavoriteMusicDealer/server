@@ -77,10 +77,8 @@ class InlinequeryCommand extends SystemCommand
 
 			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultCachedAudio([
 				'type'                  => 'audio',
-				'audio_url'             => $track['telegram_file_id'],
+				'audio_file_id'         => $track['telegram_file_id'],
 				'id'                    => $track['id'],
-				'title'                 => $track['artist'],
-				'description'           => $track['title'],
 //				'reply_markup'          => $inline_keyboard
 			]);
 		}
