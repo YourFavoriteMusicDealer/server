@@ -40,9 +40,9 @@ $telegram->addCommandsPaths([
 	__DIR__ . '/Commands/'
 ]);
 
-\Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . "/{$bot_username}_error.log");
-\Longman\TelegramBot\TelegramLog::initDebugLog(__DIR__ . "/{$bot_username}_debug.log");
-\Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$bot_username}_update.log");
+\Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . "/{$config->username}_error.log");
+\Longman\TelegramBot\TelegramLog::initDebugLog(__DIR__ . "/{$config->username}_debug.log");
+\Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$config->username}_update.log");
 
 
 $di['bot'] = $telegram;
