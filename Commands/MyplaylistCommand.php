@@ -42,11 +42,6 @@ class MyplaylistCommand extends SystemCommand
     {
 	    $message = $this->getMessage();
 
-	    Request::sendChatAction([
-		    'chat_id' => $message->getChat()->getId(),
-		    'action'  => 'upload_audio'
-	    ]);
-
 	    $user_id = $message->getFrom()->getId();
 
 	    $sqlQuery = "SELECT track.telegram_message_id FROM rating
