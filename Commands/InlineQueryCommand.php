@@ -58,7 +58,7 @@ class InlinequeryCommand extends SystemCommand
 					GROUP BY track.id
 					ORDER BY likes desc";
 
-
+\Debug::dumpDie($sqlQuery);
 		$arrTracks =  (new Simple(
 			null,
 			null,
@@ -71,10 +71,10 @@ class InlinequeryCommand extends SystemCommand
 		$results = [];
 
 		foreach ($arrTracks as $track) {
-			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
-				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
-				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
-			]);
+//			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
+//				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+//				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+//			]);
 
 			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultCachedAudio([
 				'type'                  => 'audio',
@@ -82,7 +82,7 @@ class InlinequeryCommand extends SystemCommand
 				'id'                    => $track['id'],
 				'title'                 => $track['artist'],
 				'description'           => $track['title'],
-				'reply_markup'          => $inline_keyboard
+//				'reply_markup'          => $inline_keyboard
 			]);
 		}
 
