@@ -49,6 +49,7 @@ class InlinequeryCommand extends SystemCommand
 	 */
 	public function execute()
 	{
+		js
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
@@ -86,7 +87,7 @@ class InlinequeryCommand extends SystemCommand
 		}
 
 
-		$data['results'] = '[]';
+		$data['results'] = json_decode($results);
 
 		$request = Request::answerInlineQuery($data);
 
