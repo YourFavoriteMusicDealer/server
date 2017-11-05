@@ -49,7 +49,6 @@ class InlinequeryCommand extends SystemCommand
 	 */
 	public function execute()
 	{
-		js
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
