@@ -53,35 +53,37 @@ class InlinequeryCommand extends SystemCommand
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
-		$sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
+		$data = ['inline_query_id' => $inline_query->getId()];
+
+		$results = [];
+
+		if ($query !== '') {
+
+			$sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
 					LEFT JOIN rating ON track.id = rating.track_id
 					WHERE LOWER(track.artist) LIKE LOWER('%$query%') OR LOWER(track.title) LIKE LOWER('%$query%')
 					GROUP BY track.id
 					ORDER BY likes desc";
 
-		$arrTracks =  (new Simple(
-			null,
-			null,
-			(new \Track())->getReadConnection()->query($sqlQuery)
-		))->toArray();
+			$arrTracks = (new Simple(
+				null,
+				null,
+				(new \Track())->getReadConnection()->query($sqlQuery)
+			))->toArray();
 
-//		if (!$arrTracks) return false;
+			foreach ($arrTracks as $track) {
+				$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
+					['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+					['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+				]);
 
-		$data    = ['inline_query_id' => $inline_query->getId()];
-		$results = [];
-
-		foreach ($arrTracks as $track) {
-			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
-				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
-				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
-			]);
-
-			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
-				'audio_url'             => $track['telegram_file_id'],
-				'id'                    => $track['id'],
-				'title'                 => "{$track['artist']} - {$track['title']}",
-				'reply_markup'          => $inline_keyboard
-			]);
+				$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
+					'audio_url' => $track['telegram_file_id'],
+					'id' => $track['id'],
+					'title' => "{$track['artist']} - {$track['title']}",
+					'reply_markup' => $inline_keyboard
+				]);
+			}
 		}
 
 		$data['results'] = json_encode($results);
