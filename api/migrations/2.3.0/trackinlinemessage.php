@@ -36,7 +36,7 @@ class TrackinlinemessageMigration_230 extends Migration
 	                new Column(
 		                'inline_message_id',
 		                [
-			                'type' => Column::TYPE_INTEGER,
+			                'type' => Column::TYPE_TEXT,
 			                'notNull' => true,
 		                ]
 	                )
