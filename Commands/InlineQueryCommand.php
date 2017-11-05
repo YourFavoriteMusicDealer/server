@@ -88,8 +88,6 @@ class InlinequeryCommand extends SystemCommand
 
 		$data['results'] = '[' . implode(',', $results) . ']';
 
-		\Debug::dumpDie(Request::answerInlineQuery($data));
-
 		return Request::answerInlineQuery($data);
 	}
 } 
