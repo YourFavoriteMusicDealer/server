@@ -103,17 +103,17 @@ class InlinequeryCommand extends SystemCommand
 			$articles = [
 				[
 					'id'                    => '020',
-//					'title'                 => 'Lions',
+					'caption'                 => 'Lions',
 					'audio_file_id'         => 'CQADAgADbQADkwbYSxkjttQgDwiZAg',
 				],
 				[
 					'id'                    => '050',
-//					'title'                 => 'Ниа (feat. Райда, 104, Скриптонит)',
+					'caption'                 => 'Ниа (feat. Райда, 104, Скриптонит)',
 					'audio_file_id'         => 'CQADAgADpQADbIvgS1tWrEymbnwvAg',
 				],
 				[
 					'id'                    => '073',
-//					'title'                 => 'Wild For The Night (Feat. Skrillex)',
+					'caption'                 => 'Wild For The Night (Feat. Skrillex)',
 					'audio_file_id'         => 'CQADAgADkgADbIvwS1yWazKXhAHcAg',
 				],
 			];
