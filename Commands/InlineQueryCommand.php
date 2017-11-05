@@ -71,16 +71,16 @@ class InlinequeryCommand extends SystemCommand
 		$results = [];
 
 		foreach ($arrTracks as $track) {
-//			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
-//				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
-//				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
-//			]);
+			$inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
+				['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+				['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+			]);
 
 			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
 				'audio_url'             => $track['telegram_file_id'],
 				'id'                    => $track['id'],
 				'title'                 => 'asd',
-//				'reply_markup'          => $inline_keyboard
+				'reply_markup'          => $inline_keyboard
 			]);
 		}
 
