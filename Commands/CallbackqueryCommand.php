@@ -14,6 +14,7 @@ use Core\Enum\Exception;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
+use Phalcon\Debug\Dump;
 
 /**
  * Callback query command
@@ -51,6 +52,8 @@ class CallbackqueryCommand extends SystemCommand
         $callback_query_id = $callback_query->getId();
         $callback_data     = $callback_query->getData();
 
+        if ($inline_message_id = $callback_query->getInlineMessageId()) return $this->_inlineMessage($inline_message_id);
+
         $fromId = $callback_query->getFrom()->getId();
         $fromUsername = $callback_query->getFrom()->getUsername();
 
@@ -85,6 +88,61 @@ class CallbackqueryCommand extends SystemCommand
 	    Request::editMessageReplyMarkup([
 		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
 		    'message_id' => $callback_query->getMessage()->getMessageId(),
+		    'reply_markup' => $inline_keyboard
+	    ]);
+
+	    $data = [
+		    'callback_query_id' => $callback_query_id,
+		    'text'              => 'Хорошо, я запомнил😉',
+		    'show_alert'        => true,
+	    ];
+
+	    return Request::answerCallbackQuery($data);
+    }
+
+    private function _inlineMessage($id)
+    {
+		$rowTrack = \TrackInlinemessage::findFirst("inline_message_id = '$id'")->track;
+
+	    $callback_query    = $this->getCallbackQuery();
+	    $callback_query_id = $callback_query->getId();
+	    $callback_data     = $callback_query->getData();
+
+	    $fromId = $callback_query->getFrom()->getId();
+	    $fromUsername = $callback_query->getFrom()->getUsername();
+
+	    $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
+
+	    if (!$rowRating) {
+		    (new \Rating([
+			    'user_id' => $fromId,
+			    'track_id'=> $rowTrack->id,
+			    'lik' => $callback_data === 'like',
+			    'dislik' => $callback_data === 'dislike',
+			    'username' => $fromUsername
+		    ]))->save();
+	    } else {
+		    $rowRating->lik = $callback_data === 'like';
+		    $rowRating->dislik = $callback_data === 'dislike';
+
+		    $rowRating->save();
+	    }
+
+	    $inline_keyboard = new InlineKeyboard([
+		    ['text' => "👍🏻 {$rowTrack->likes}", 'callback_data' => 'like'],
+		    ['text' => "👎🏻 {$rowTrack->dislikes}", 'callback_data' => 'dislike'],
+	    ]);
+
+	    Request::editMessageReplyMarkup([
+		    'chat_id' => '@jonkofee_music',
+		    'message_id' => $rowTrack->telegram_message_id,
+		    'reply_markup' => $inline_keyboard
+	    ]);
+
+
+
+	    Request::editMessageReplyMarkup([
+		    'inline_message_id' => $id,
 		    'reply_markup' => $inline_keyboard
 	    ]);
 
