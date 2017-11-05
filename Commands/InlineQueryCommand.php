@@ -86,7 +86,7 @@ class InlinequeryCommand extends SystemCommand
 		}
 
 
-		$data['results'] = '[' . implode(',', $results) . ']';
+		$data['results'] = '[]';
 
 		$request = Request::answerInlineQuery($data);
 
