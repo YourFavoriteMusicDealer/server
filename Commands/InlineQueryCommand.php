@@ -47,7 +47,7 @@ class InlinequeryCommand extends SystemCommand
 	 * @return \Longman\TelegramBot\Entities\ServerResponse
 	 * @throws \Longman\TelegramBot\Exception\TelegramException
 	 */
-	public function execute()
+	public function executeTest()
 	{
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
@@ -76,7 +76,6 @@ class InlinequeryCommand extends SystemCommand
 //			]);
 
 			$results[] = new \Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio([
-				'type'                  => 'audio',
 				'audio_url'             => $track['telegram_file_id'],
 				'id'                    => $track['id'],
 				'title'                 => 'asd',
@@ -91,5 +90,40 @@ class InlinequeryCommand extends SystemCommand
 		TelegramLog::debug(var_dump($inline_query, $data, $request));
 
 		return $request;
+	}
+
+	public function execute()
+	{
+		$inline_query = $this->getInlineQuery();
+		$query        = $inline_query->getQuery();
+		$data    = ['inline_query_id' => $inline_query->getId()];
+		$results = [];
+		if ($query !== '') {
+			$articles = [
+				[
+					'id'                    => '001',
+					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
+					'description'           => 'you enter: ' . $query,
+					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+				],
+				[
+					'id'                    => '002',
+					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
+					'description'           => 'you enter: ' . $query,
+					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+				],
+				[
+					'id'                    => '003',
+					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
+					'description'           => 'you enter: ' . $query,
+					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+				],
+			];
+			foreach ($articles as $article) {
+				$results[] = new InlineQueryResultArticle($article);
+			}
+		}
+		$data['results'] = '[' . implode(',', $results) . ']';
+		return Request::answerInlineQuery($data);
 	}
 } 
