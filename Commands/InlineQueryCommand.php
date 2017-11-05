@@ -58,7 +58,7 @@ class InlinequeryCommand extends SystemCommand
 					GROUP BY track.id
 					ORDER BY likes desc";
 
-\Debug::dumpDie($sqlQuery);
+
 		$arrTracks =  (new Simple(
 			null,
 			null,
