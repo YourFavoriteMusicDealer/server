@@ -58,7 +58,7 @@ class InlinequeryCommand extends SystemCommand
 					GROUP BY track.id
 					ORDER BY likes desc";
 
-
+\Debug::dumpDie($sqlQuery);
 		$arrTracks =  (new Simple(
 			null,
 			null,
@@ -91,7 +91,7 @@ class InlinequeryCommand extends SystemCommand
 
 		$request = Request::answerInlineQuery($data);
 
-		TelegramLog::debug([$inline_query, $data, $request]);
+		TelegramLog::debug(var_dump($inline_query, $data, $request));
 
 		return $request;
 	}
