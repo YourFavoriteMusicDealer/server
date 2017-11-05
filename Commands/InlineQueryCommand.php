@@ -48,7 +48,7 @@ class InlinequeryCommand extends SystemCommand
 	 * @return \Longman\TelegramBot\Entities\ServerResponse
 	 * @throws \Longman\TelegramBot\Exception\TelegramException
 	 */
-	public function executeTest()
+	public function execute()
 	{
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
@@ -88,12 +88,10 @@ class InlinequeryCommand extends SystemCommand
 
 		$request = Request::answerInlineQuery($data);
 
-		TelegramLog::debug(var_dump($inline_query, $data, $request));
-
 		return $request;
 	}
 
-	public function execute()
+	public function executea()
 	{
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
