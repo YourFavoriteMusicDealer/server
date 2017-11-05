@@ -90,41 +90,4 @@ class InlinequeryCommand extends SystemCommand
 
 		return $request;
 	}
-
-	public function executea()
-	{
-		$inline_query = $this->getInlineQuery();
-		$query        = $inline_query->getQuery();
-		$data    = ['inline_query_id' => $inline_query->getId()];
-		$results = [];
-		if ($query !== '') {
-			$articles = [
-				[
-					'id'                    => '020',
-					'title'                 => 'Lions',
-					'audio_url'         => 'CQADAgADbQADkwbYSxkjttQgDwiZAg',
-				],
-				[
-					'id'                    => '050',
-					'title'                 => 'Ниа (feat. Райда, 104, Скриптонит)',
-					'audio_url'         => 'CQADAgADpQADbIvgS1tWrEymbnwvAg',
-				],
-				[
-					'id'                    => '073',
-					'title'                 => 'Wild For The Night (Feat. Skrillex)',
-					'audio_url'         => 'CQADAgADkgADbIvwS1yWazKXhAHcAg',
-				],
-			];
-			foreach ($articles as $article) {
-				$results[] = new InlineQueryResultAudio($article);
-			}
-		}
-		$data['results'] = json_encode($results);
-
-		$request = Request::answerInlineQuery($data);
-
-		TelegramLog::debug(var_dump($data, $request));
-
-		return $request;
-	}
 } 
