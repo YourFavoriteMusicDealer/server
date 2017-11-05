@@ -121,7 +121,7 @@ class InlinequeryCommand extends SystemCommand
 				$results[] = new InlineQueryResultAudio($article);
 			}
 		}
-		$data['results'] = '[' . implode(',', $results) . ']';
+		$data['results'] = json_encode($results);
 
 		$request = Request::answerInlineQuery($data);
 
