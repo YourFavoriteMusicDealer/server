@@ -102,17 +102,17 @@ class InlinequeryCommand extends SystemCommand
 		if ($query !== '') {
 			$articles = [
 				[
-					'id'                    => '20',
+					'id'                    => '020',
 //					'title'                 => 'Lions',
 					'audio_file_id'         => 'CQADAgADbQADkwbYSxkjttQgDwiZAg',
 				],
 				[
-					'id'                    => '50',
+					'id'                    => '050',
 //					'title'                 => 'Ниа (feat. Райда, 104, Скриптонит)',
 					'audio_file_id'         => 'CQADAgADpQADbIvgS1tWrEymbnwvAg',
 				],
 				[
-					'id'                    => '73',
+					'id'                    => '073',
 //					'title'                 => 'Wild For The Night (Feat. Skrillex)',
 					'audio_file_id'         => 'CQADAgADkgADbIvwS1yWazKXhAHcAg',
 				],
