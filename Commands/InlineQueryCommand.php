@@ -16,6 +16,7 @@ use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultArticle;
 use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio;
 use Longman\TelegramBot\Entities\InputMessageContent\InputTextMessageContent;
 use Longman\TelegramBot\Request;
+use Longman\TelegramBot\TelegramLog;
 use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
@@ -88,6 +89,10 @@ class InlinequeryCommand extends SystemCommand
 
 		$data['results'] = '[' . implode(',', $results) . ']';
 
-		return Request::answerInlineQuery($data);
+		$request = Request::answerInlineQuery($data);
+
+		TelegramLog::debug([$inline_query, $data, $request]);
+
+		return $request;
 	}
 } 
