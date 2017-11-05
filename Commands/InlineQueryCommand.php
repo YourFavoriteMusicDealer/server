@@ -88,7 +88,7 @@ class InlinequeryCommand extends SystemCommand
 
 		$data['results'] = json_encode($results);
 
-		TelegramLog::debug(var_dump($query, $query !== '));
+		TelegramLog::debug(var_dump($query, $query !== ''));
 
 		$request = Request::answerInlineQuery($data);
 
