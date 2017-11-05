@@ -14,6 +14,7 @@ use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultArticle;
 use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultAudio;
+use Longman\TelegramBot\Entities\InlineQuery\InlineQueryResultCachedAudio;
 use Longman\TelegramBot\Entities\InputMessageContent\InputTextMessageContent;
 use Longman\TelegramBot\Request;
 use Longman\TelegramBot\TelegramLog;
@@ -101,26 +102,23 @@ class InlinequeryCommand extends SystemCommand
 		if ($query !== '') {
 			$articles = [
 				[
-					'id'                    => '001',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'id'                    => '20',
+					'title'                 => 'Lions',
+					'audio_url'              => 'CQADAgADbQADkwbYSxkjttQgDwiZAg',
 				],
 				[
-					'id'                    => '002',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'id'                    => '50',
+					'title'                 => 'Ниа (feat. Райда, 104, Скриптонит)',
+					'audio_url'             => 'CQADAgADpQADbIvgS1tWrEymbnwvAg',
 				],
 				[
-					'id'                    => '003',
-					'title'                 => 'https://core.telegram.org/bots/api#answerinlinequery',
-					'description'           => 'you enter: ' . $query,
-					'input_message_content' => new InputTextMessageContent(['message_text' => ' ' . $query]),
+					'id'                    => '73',
+					'title'                 => 'Wild For The Night (Feat. Skrillex)',
+					'audio_url'             => 'CQADAgADkgADbIvwS1yWazKXhAHcAg',
 				],
 			];
 			foreach ($articles as $article) {
-				$results[] = new InlineQueryResultArticle($article);
+				$results[] = new InlineQueryResultAudio($article);
 			}
 		}
 		$data['results'] = '[' . implode(',', $results) . ']';
