@@ -85,8 +85,7 @@ class InlinequeryCommand extends SystemCommand
 			]);
 		}
 
-
-		$data['results'] = json_decode($results);
+		$data['results'] = json_encode($results);
 
 		$request = Request::answerInlineQuery($data);
 
