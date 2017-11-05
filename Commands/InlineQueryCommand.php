@@ -125,8 +125,10 @@ class InlinequeryCommand extends SystemCommand
 		}
 		$data['results'] = '[' . implode(',', $results) . ']';
 
+		$request = Request::answerInlineQuery($data);
+
 		TelegramLog::debug(var_dump($inline_query, $data, $request));
 
-		return Request::answerInlineQuery($data);
+		return $request;
 	}
 } 
