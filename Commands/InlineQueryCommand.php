@@ -79,7 +79,6 @@ class InlinequeryCommand extends SystemCommand
 				'type'                  => 'audio',
 				'audio_file_id'         => $track['telegram_file_id'],
 				'id'                    => $track['id'],
-				'title'                 => 'asdasd',
 //				'reply_markup'          => $inline_keyboard
 			]);
 		}
