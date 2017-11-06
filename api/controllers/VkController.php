@@ -30,15 +30,15 @@ class VkController extends Controller
 
 		$this->_initId3();
 
+		return json_encode($fromId, $postId);
 		$post = $this->_getPost($fromId, $postId);
 
-		return json_encode($post);
 
 		//Пропускаем рекламные посты
 		if ($post->marked_as_ads) return;
 
 		//Если уже обрабатывали такой пост - далее
-		if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) continue;
+		if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) return;
 
 		$tracks = $this->_getTracksByPost($post);
 
