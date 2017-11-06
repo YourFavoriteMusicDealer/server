@@ -70,10 +70,7 @@ try {
 	try {
 		$dispatcher->dispatch();
 
-		$result = [
-			'status' => 'OK',
-			'response' => $dispatcher->getReturnedValue()
-		];
+		$result = $dispatcher->getReturnedValue();
 	} catch (Exception $e) {
 		$statusCode = $e->getCode() ? $e->getCode() : 500;
 
@@ -85,7 +82,7 @@ try {
 		];
 	}
 
-	$response->setJsonContent($result);
+	$response->setContent($result);
 
 	$response->sendHeaders();
 
