@@ -208,7 +208,7 @@ class VkController extends Controller
 		]);
 
 		$data = [
-			'chat_id' => '@jonkofee_music',
+			'chat_id' => -1001149842026,
 			'audio'  => $telegramTrackStream,
 			'reply_markup' => $inline_keyboard
 		];
