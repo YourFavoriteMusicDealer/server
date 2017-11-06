@@ -18,76 +18,74 @@ class VkController extends Controller
 		'/'
 	];
 
-	private $_domainsId = [
-		'jonkofee_music' => -155981437
-	];
-
 	/**
 	 * @Post('/callback')
 	 */
 	public function callbackAction()
 	{
-		return $this->_getInput()->object->id;
+		$input = $this->_getInput();
+
+		$postId = $input->object->id;
+		$fromId = $input->object->from_id;
+
 		$this->_initId3();
 
-		$wall = $this->_getWall($domain);
+		$post = $this->_getPost($fromId, $postId);
 
-		foreach ($wall as $post) {
-			//Пропускаем рекламные посты
-			if ($post->marked_as_ads) continue;
+		return json_decode($post);
 
-			//Если уже обрабатывали такой пост - далее
-			if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) continue;
+		//Пропускаем рекламные посты
+		if ($post->marked_as_ads) return;
 
-			$tracks = $this->_getTracksByPost($post);
+		//Если уже обрабатывали такой пост - далее
+		if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) continue;
 
-			foreach ($tracks as $track) {
-				try {
-					$this->_normalizeMetadata($track);
-					$this->_fileWithMetatag($track);
+		$tracks = $this->_getTracksByPost($post);
 
-					$response = $this->_sendTrack($track);
-				} catch (Exception $e) {
-					continue;
-				}
+		foreach ($tracks as $track) {
+			try {
+				$this->_normalizeMetadata($track);
+				$this->_fileWithMetatag($track);
 
-				if ($response->isOk()) {
-					$result = $response->getResult();
-
-					$track_id = $result->getAudio()->getFileId();
-					$message_id = $result->getMessageId();
-
-					$newTrackInDB = new Track([
-						'artist' => $track->artist,
-						'title' => $track->title,
-						'img' => $track->album->thumb->photo_600,
-						'telegram_file_id' => $track_id,
-						'telegram_message_id' => $message_id,
-						'hash' => $track->hash
-					]);
-
-					$newTrackInDB->save();
-				}
+				$response = $this->_sendTrack($track);
+			} catch (Exception $e) {
+				continue;
 			}
 
-			//Запоминаем, что этот пост обработали
-			$newPostInDB = new Post([
-				'owner_id' => $post->owner_id,
-				'post_id' => $post->id
-			]);
+			if ($response->isOk()) {
+				$result = $response->getResult();
 
-			$newPostInDB->save();
+				$track_id = $result->getAudio()->getFileId();
+				$message_id = $result->getMessageId();
+
+				$newTrackInDB = new Track([
+					'artist' => $track->artist,
+					'title' => $track->title,
+					'img' => $track->album->thumb->photo_600,
+					'telegram_file_id' => $track_id,
+					'telegram_message_id' => $message_id,
+					'hash' => $track->hash
+				]);
+
+				$newTrackInDB->save();
+			}
 		}
+
+		//Запоминаем, что этот пост обработали
+		$newPostInDB = new Post([
+			'owner_id' => $post->owner_id,
+			'post_id' => $post->id
+		]);
+
+		$newPostInDB->save();
 	}
 
-	private function _getWall($domain)
+	private function _getPost($fromId, $postId)
 	{
-		$count = 50;
-
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.vk.com/method/wall.get?domain=$domain&count=$count&filter=owner&access_token=630494155c417d7382ffe1fc428faa0e344b3763a97f921694f65b91c1e4468ff261900562c8bf4dfbb32&v=5.69",
+			CURLOPT_URL => "https://api.vk.com/method/wall.getById?posts=$fromId_$postId&access_token=630494155c417d7382ffe1fc428faa0e344b3763a97f921694f65b91c1e4468ff261900562c8bf4dfbb32&v=5.69",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
@@ -107,7 +105,7 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-			return json_decode($response)->response->items;
+			return json_decode($response)->response[0];
 		}
 	}
 
