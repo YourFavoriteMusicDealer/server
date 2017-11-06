@@ -18,8 +18,8 @@ class VkController extends Controller
 		'/'
 	];
 
-	private $_domains = [
-		'jonkofee_music'
+	private $_domainsId = [
+		'jonkofee_music' => -155981437
 	];
 
 	/**
@@ -27,58 +27,56 @@ class VkController extends Controller
 	 */
 	public function callbackAction()
 	{
-		$this->_id3 = new getID3;
-		$this->_id3->setOption(array('encoding'=>'UTF-8'));
+		return json_encode($_POST);
+		$this->_initId3();
 
-		foreach ($this->_domains as $domain) {
-			$wall = $this->_getWall($domain);
+		$wall = $this->_getWall($domain);
 
-			foreach ($wall as $post) {
-				//Пропускаем рекламные посты
-				if ($post->marked_as_ads) continue;
+		foreach ($wall as $post) {
+			//Пропускаем рекламные посты
+			if ($post->marked_as_ads) continue;
 
-				//Если уже обрабатывали такой пост - далее
-				if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) continue;
+			//Если уже обрабатывали такой пост - далее
+			if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) continue;
 
-				$tracks = $this->_getTracksByPost($post);
+			$tracks = $this->_getTracksByPost($post);
 
-				foreach ($tracks as $track) {
-					try {
-						$this->_normalizeMetadata($track);
-						$this->_fileWithMetatag($track);
+			foreach ($tracks as $track) {
+				try {
+					$this->_normalizeMetadata($track);
+					$this->_fileWithMetatag($track);
 
-						$response = $this->_sendTrack($track);
-					} catch (Exception $e) {
-						continue;
-					}
-
-					if ($response->isOk()) {
-						$result = $response->getResult();
-
-						$track_id = $result->getAudio()->getFileId();
-						$message_id = $result->getMessageId();
-
-						$newTrackInDB = new Track([
-							'artist' => $track->artist,
-							'title' => $track->title,
-							'img' => $track->album->thumb->photo_600,
-							'telegram_file_id' => $track_id,
-							'telegram_message_id' => $message_id,
-							'hash' => $track->hash
-						]);
-
-						$newTrackInDB->save();
-					}
+					$response = $this->_sendTrack($track);
+				} catch (Exception $e) {
+					continue;
 				}
 
-				//Запоминаем, что этот пост обработали
-				$newPostInDB = new Post([
-					'owner_id' => $post->owner_id,
-					'post_id' => $post->id
-				]);
+				if ($response->isOk()) {
+					$result = $response->getResult();
 
-				$newPostInDB->save();
+					$track_id = $result->getAudio()->getFileId();
+					$message_id = $result->getMessageId();
+
+					$newTrackInDB = new Track([
+						'artist' => $track->artist,
+						'title' => $track->title,
+						'img' => $track->album->thumb->photo_600,
+						'telegram_file_id' => $track_id,
+						'telegram_message_id' => $message_id,
+						'hash' => $track->hash
+					]);
+
+					$newTrackInDB->save();
+				}
 			}
+
+			//Запоминаем, что этот пост обработали
+			$newPostInDB = new Post([
+				'owner_id' => $post->owner_id,
+				'post_id' => $post->id
+			]);
+
+			$newPostInDB->save();
 		}
 	}
 
@@ -228,6 +226,12 @@ class VkController extends Controller
 		$track->artist = trim(str_replace($this->_mark, '', $track->artist));
 
 		if (isset($track->album) && isset($track->album->thumb)) $track->album->title = trim(str_replace($this->_mark, '', $track->album->title));
+	}
+
+	private function _initId3()
+	{
+		$this->_id3 = new getID3;
+		$this->_id3->setOption(array('encoding'=>'UTF-8'));
 	}
 
 }
