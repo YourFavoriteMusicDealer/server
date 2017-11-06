@@ -105,7 +105,7 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-			return json_decode($response);
+			return json_decode($response)->response;
 		}
 	}
 
