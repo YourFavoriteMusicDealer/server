@@ -79,7 +79,7 @@ class VkTask extends Task
 
 	private function _getWall($domain)
 	{
-		$count = 50;
+		$count = 100;
 
 		$curl = curl_init();
 
