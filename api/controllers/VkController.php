@@ -27,7 +27,7 @@ class VkController extends Controller
 	 */
 	public function callbackAction()
 	{
-		return json_encode($_REQUEST);
+		return json_encode(file_get_contents('php://input'));
 		$this->_initId3();
 
 		$wall = $this->_getWall($domain);
