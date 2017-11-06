@@ -7,7 +7,7 @@ class VkController extends Controller
 {
 
 	/**
-	 * @Get('/callback')
+	 * @Post('/callback')
 	 */
 	public function callbackAction()
 	{
