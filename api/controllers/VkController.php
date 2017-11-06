@@ -32,7 +32,7 @@ class VkController extends Controller
 
 		$post = $this->_getPost($fromId, $postId);
 
-		return json_decode($post);
+		return json_encode($post);
 
 		//Пропускаем рекламные посты
 		if ($post->marked_as_ads) return;
@@ -85,7 +85,7 @@ class VkController extends Controller
 		$curl = curl_init();
 
 		curl_setopt_array($curl, array(
-			CURLOPT_URL => "https://api.vk.com/method/wall.getById?posts=$fromId_$postId&access_token=630494155c417d7382ffe1fc428faa0e344b3763a97f921694f65b91c1e4468ff261900562c8bf4dfbb32&v=5.69",
+			CURLOPT_URL => "https://api.vk.com/method/wall.getById?posts={$fromId}_{$postId}&access_token=630494155c417d7382ffe1fc428faa0e344b3763a97f921694f65b91c1e4468ff261900562c8bf4dfbb32&v=5.69",
 			CURLOPT_RETURNTRANSFER => true,
 			CURLOPT_ENCODING => "",
 			CURLOPT_MAXREDIRS => 10,
