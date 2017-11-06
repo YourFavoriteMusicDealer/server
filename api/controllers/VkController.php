@@ -31,8 +31,6 @@ class VkController extends Controller
 		$this->_initId3();
 
 		$post = $this->_getPost($fromId, $postId);
-		return json_encode($post);
-
 
 		//Пропускаем рекламные посты
 		if ($post->marked_as_ads) return;
@@ -78,6 +76,8 @@ class VkController extends Controller
 		]);
 
 		$newPostInDB->save();
+
+		return 'ok';
 	}
 
 	private function _getPost($fromId, $postId)
@@ -105,7 +105,7 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-			return json_decode($response)->response;
+			return json_decode($response)->response[0];
 		}
 	}
 
@@ -208,7 +208,7 @@ class VkController extends Controller
 		]);
 
 		$data = [
-			'chat_id' => '@jonkofee',
+			'chat_id' => '325275444',
 			'audio'  => $telegramTrackStream,
 			'reply_markup' => $inline_keyboard
 		];
