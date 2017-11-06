@@ -30,8 +30,8 @@ class VkController extends Controller
 
 		$this->_initId3();
 
-		return json_encode($fromId, $postId);
 		$post = $this->_getPost($fromId, $postId);
+		return $post;
 
 
 		//Пропускаем рекламные посты
@@ -105,7 +105,7 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-			return json_decode($response)->response[0];
+			return $response;
 		}
 	}
 
