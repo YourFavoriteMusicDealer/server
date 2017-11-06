@@ -11,7 +11,7 @@ class VkController extends Controller
 	 */
 	public function callbackAction()
 	{
-		return '1a644deb';
+		(new VkTask())->syncAction();
 	}
 
 	public function notFoundAction()
