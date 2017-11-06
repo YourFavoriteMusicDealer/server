@@ -27,7 +27,7 @@ class VkController extends Controller
 	 */
 	public function callbackAction()
 	{
-		return json_encode(file_get_contents('php://input'));
+		return $this->_getInput()->object->id;
 		$this->_initId3();
 
 		$wall = $this->_getWall($domain);
@@ -232,6 +232,11 @@ class VkController extends Controller
 	{
 		$this->_id3 = new getID3;
 		$this->_id3->setOption(array('encoding'=>'UTF-8'));
+	}
+
+	private function _getInput()
+	{
+		return json_decode(file_get_contents('php://input'));
 	}
 
 }
