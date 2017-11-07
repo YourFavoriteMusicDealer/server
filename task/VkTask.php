@@ -170,12 +170,13 @@ class VkTask extends Task
 		$tagwriter->tag_encoding   = 'UTF-8';
 
 		$tagData = [
-			'album' => [$track->album->title],
 			'artist' => [$track->artist],
 			'copyright' => ['jonkofee'],
-			'genre' => [$track->track_genre_id],
 			'title' => [$track->title]
 		];
+
+		if (isset($track->album->title)) $tagData['album'] = [$track->album->title];
+		if (isset($track->track_genre_id)) $tagData['genre'] = [$track->track_genre_id];
 
 		if (isset($track->album->thumb)) {
 			//Add artcover
