@@ -161,9 +161,11 @@ class VkController extends Controller
 		return $localtempfilename;
 	}
 
-	private function _setMetatag($track)
+	private function _setMetatag(&$track)
 	{
 		$oldTagData = $this->_id3->analyze($track->url);
+
+		$track->duration = (int) $oldTagData['playtime_seconds'];
 
 		$tagData = isset($oldTagData['tags']['id3v2']) ? $oldTagData['tags']['id3v2'] : $oldTagData['tags']['id3v1'];
 
@@ -217,7 +219,10 @@ class VkController extends Controller
 		$data = [
 			'chat_id' => -1001149842026,
 			'audio'  => $telegramTrackStream,
-			'reply_markup' => $inline_keyboard
+			'reply_markup' => $inline_keyboard,
+			'performer' => $track->artist,
+			'title' => $track->title,
+			'duration' => $track->duration
 		];
 
 		return \Longman\TelegramBot\Request::sendAudio($data);
