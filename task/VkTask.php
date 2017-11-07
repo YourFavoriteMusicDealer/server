@@ -160,9 +160,11 @@ class VkTask extends Task
 		return $localtempfilename;
 	}
 
-	private function _setMetatag($track)
+	private function _setMetatag(&$track)
 	{
 		$oldTagData = $this->_id3->analyze($track->url);
+
+		$track->duration = (int) $oldTagData['playtime_seconds'];
 
 		$tagData = isset($oldTagData['tags']['id3v2']) ? $oldTagData['tags']['id3v2'] : $oldTagData['tags']['id3v1'];
 
@@ -216,7 +218,10 @@ class VkTask extends Task
 		$data = [
 			'chat_id' => '@jonkofee_music',
 			'audio'  => $telegramTrackStream,
-			'reply_markup' => $inline_keyboard
+			'reply_markup' => $inline_keyboard,
+			'performer' => $track->artist,
+			'title' => $track->title,
+			'duration' => $track->duration
 		];
 
 		return \Longman\TelegramBot\Request::sendAudio($data);
