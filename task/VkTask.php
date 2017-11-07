@@ -136,7 +136,7 @@ class VkTask extends Task
 
 		//Скачиваем в temp
 		if ($fp_remote = fopen($url, 'rb')) {
-			$localtempfilename = sys_get_temp_dir() . "{$track->artist} - {$track->title}.mp3";
+			$localtempfilename = sys_get_temp_dir() . "/{$track->artist} - {$track->title}.mp3";
 
 			$track->localPath = $localtempfilename;
 
