@@ -136,7 +136,7 @@ class VkTask extends Task
 
 		//Скачиваем в temp
 		if ($fp_remote = fopen($url, 'rb')) {
-			$localtempfilename = sys_get_temp_dir() . "/{$track->artist} - {$track->title}.mp3";
+			$localtempfilename = sys_get_temp_dir() . "{$track->artist} - {$track->title}.mp3";
 
 			$track->localPath = $localtempfilename;
 
@@ -162,6 +162,12 @@ class VkTask extends Task
 
 	private function _setMetatag($track)
 	{
+		$oldTagData = $this->_id3->analyze($track->url);
+
+		$tagData = isset($oldTagData['tags']['id3v2']) ? $oldTagData['tags']['id3v2'] : $oldTagData['tags']['id3v1'];
+
+		$tagData['attached_picture'] = $oldTagData['comments']['picture'];
+
 		$tagwriter = new getid3_writetags;
 		$tagwriter->filename       = $track->url;
 		$tagwriter->tagformats     = ['id3v1', 'id3v2.3'];
@@ -169,11 +175,11 @@ class VkTask extends Task
 		$tagwriter->overwrite_tags = true;
 		$tagwriter->tag_encoding   = 'UTF-8';
 
-		$tagData = [
-			'artist' => [$track->artist],
-			'copyright' => ['jonkofee'],
-			'title' => [$track->title]
-		];
+		$tagData['artist'] = [$track->artist];
+		$tagData['copyright_message'] = ['https://t.me/jonkofee_music'];
+		$tagData['comment'] = ['https://t.me/jonkofee_music'];
+		$tagData['content_group_description'] = ['https://t.me/jonkofee_music'];
+		$tagData['title'] = [$track->title];
 
 		if (isset($track->album->title)) $tagData['album'] = [$track->album->title];
 		if (isset($track->track_genre_id)) $tagData['genre'] = [$track->track_genre_id];
@@ -183,7 +189,7 @@ class VkTask extends Task
 			$img = file_get_contents($track->album->thumb->photo_600);
 			$exif_imagetype = exif_imagetype($track->album->thumb->photo_600);
 
-			$tagData['attached_picture'][] = [
+			$tagData['attached_picture'][0] = [
 				'data' => $img,
 				'picturetypeid' => 'jpg',
 				'description' => "{$track->artist} - {$track->title}",
