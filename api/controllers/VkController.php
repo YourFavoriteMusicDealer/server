@@ -153,7 +153,7 @@ class VkController extends Controller
 
 		$track->hash = hash_file('md5', $track->localPath);
 
-		if (Track::findFirst("hash = '{$track->hash}'")) {
+		if (Track::findFirstByHash($track->hash)) {
 			unlink($track->localPath);
 			throw new Exception('Такая песня уже есть');
 		}
