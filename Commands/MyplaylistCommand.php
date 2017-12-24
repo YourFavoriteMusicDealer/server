@@ -42,11 +42,11 @@ class MyplaylistCommand extends SystemCommand
     {
 	    $message = $this->getMessage();
 
-	    $user_id = $message->getFrom()->getId();
+	    $userId = $message->getFrom()->getId();
 
 	    $sqlQuery = "SELECT track.telegram_message_id FROM rating
 					LEFT JOIN track ON track.id = rating.track_id
-					WHERE user_id = $user_id AND lik = TRUE";
+					WHERE user_id = $userId AND lik = TRUE";
 
 
 	    $arr =  (new Simple(
