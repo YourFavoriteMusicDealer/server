@@ -96,25 +96,14 @@ class CallbackqueryCommand extends SystemCommand
         (new \Track())->getReadConnection()->query($sqlQuery)
       ))->toArray()[0];
 
-      $curl = curl_init();
-
-      curl_setopt_array($curl, [
-        CURLOPT_URL => "http://api.telegram.org/bot461745599:AAHzddZi6dUJ2o2eOOhvsP1ecgnB8WQF5iM/editMessageReplyMarkup?chat_id={$callback_query->getMessage()->getChat()->getId()}&message_id={$callback_query->getMessage()->getMessageId()}&reply_markup={%22inline_keyboard%22:%20[[{%20%22text%22:%20%22{$rowTrack['likes']}%22,%20%22callback_data%22:%20%22like%22},%20{%20%22text%22:%20%22{$rowTrack['dislikes']}%22,%22callback_data%22:%20%22dislike%22}]]}",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => [
-          "Cache-Control: no-cache"
-        ]
-      ]);
-
-      $response = curl_exec($curl);
-      $err = curl_error($curl);
-
-      curl_close($curl);
+	    Request::editMessageReplyMarkup([
+		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+		    'message_id' => $callback_query->getMessage()->getMessageId(),
+		    'reply_markup' => new InlineKeyboard([
+          ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
+          ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
+        ])
+	    ]);
 
 	    return true;
     }
