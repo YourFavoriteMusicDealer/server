@@ -44,7 +44,6 @@ $telegram->addCommandsPaths([
 ]);
 
 \Longman\TelegramBot\TelegramLog::initErrorLog(__DIR__ . "/{$config->username}_error.log");
-\Longman\TelegramBot\TelegramLog::initDebugLog(__DIR__ . "/{$config->username}_debug.log");
 \Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$config->username}_update.log");
 
 
