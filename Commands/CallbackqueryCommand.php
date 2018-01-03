@@ -10,11 +10,11 @@
 
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
-use Core\Enum\Exception;
 use Longman\TelegramBot\Commands\SystemCommand;
 use Longman\TelegramBot\Entities\InlineKeyboard;
 use Longman\TelegramBot\Request;
 use Phalcon\Debug\Dump;
+use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * Callback query command
@@ -48,61 +48,68 @@ class CallbackqueryCommand extends SystemCommand
      */
     public function execute()
     {
-        $callback_query    = $this->getCallbackQuery();
-        $callback_query_id = $callback_query->getId();
-//        $callback_data     = $callback_query->getData();
-//
-//        if ($inline_message_id = $callback_query->getInlineMessageId()) return $this->_inlineMessage($inline_message_id);
-//
-//        $fromId = $callback_query->getFrom()->getId();
-//        $fromUsername = $callback_query->getFrom()->getUsername();
-//
-//        $messageId = $callback_query->getMessage()->getMessageId();
-//
-//        $rowTrack = \Track::findFirst("telegram_message_id = $messageId");
-//
-//        if (!$rowTrack) return false;
-//
-//		$rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
-//
-//		if (!$rowRating) {
-//			(new \Rating([
-//				'user_id' => $fromId,
-//				'track_id'=> $rowTrack->id,
-//				'lik' => $callback_data === 'like',
-//				'dislik' => $callback_data === 'dislike',
-//				'username' => $fromUsername
-//			]))->save();
-//		} else {
-//			$rowRating->lik = $callback_data === 'like';
-//			$rowRating->dislik = $callback_data === 'dislike';
-//
-//			$rowRating->save();
-//		}
-//
-//	    $inline_keyboard = new InlineKeyboard([
-//		    ['text' => "👍🏻 {$rowTrack->likes}", 'callback_data' => 'like'],
-//		    ['text' => "👎🏻 {$rowTrack->dislikes}", 'callback_data' => 'dislike'],
-//	    ]);
-//
-//	    Request::editMessageReplyMarkup([
-//		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
-//		    'message_id' => $callback_query->getMessage()->getMessageId(),
-//		    'reply_markup' => $inline_keyboard
-//	    ]);
+      $callback_query    = $this->getCallbackQuery();
+      $callback_query_id = $callback_query->getId();
+      $callback_data     = $callback_query->getData();
 
-	    $data = [
-		    'callback_query_id' => $callback_query_id,
-		    'text'              => 'Понял, принял😉'
-	    ];
+      if ($inline_message_id = $callback_query->getInlineMessageId()) return $this->_inlineMessage($inline_message_id);
 
-	    return Request::answerCallbackQuery($data);
+      $fromId = $callback_query->getFrom()->getId();
+      $fromUsername = $callback_query->getFrom()->getUsername();
+
+      $messageId = $callback_query->getMessage()->getMessageId();
+
+      $rowTrack = \Track::findFirst("telegram_message_id = $messageId");
+
+      if (!$rowTrack) return false;
+
+      $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
+
+      if (!$rowRating) {
+        (new \Rating([
+          'user_id' => $fromId,
+          'track_id'=> $rowTrack->id,
+          'lik' => $callback_data === 'like',
+          'dislik' => $callback_data === 'dislike',
+          'username' => $fromUsername
+        ]))->save();
+      } else {
+        $rowRating->lik = $callback_data === 'like';
+        $rowRating->dislik = $callback_data === 'dislike';
+
+        $rowRating->save();
+      }
+
+      Request::answerCallbackQuery([
+        'callback_query_id' => $callback_query_id,
+        'text'              => 'Понял, принял😉'
+      ]);
+
+      $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
+                    LEFT JOIN rating ON track.id = rating.track_id 
+                    WHERE telegram_message_id = $messageId 
+                    GROUP BY track.id";
+
+      $rowTrack = (new Simple(
+        null,
+        null,
+        (new \Track())->getReadConnection()->query($sqlQuery)
+      ))->toArray()[0];
+
+	    Request::editMessageReplyMarkup([
+		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+		    'message_id' => $callback_query->getMessage()->getMessageId(),
+		    'reply_markup' => new InlineKeyboard([
+          ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
+          ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
+        ])
+	    ]);
+
+	    return true;
     }
 
     private function _inlineMessage($id)
     {
-		$rowTrack = \TrackInlinemessage::findFirst("inline_message_id = '$id'")->track;
-
 	    $callback_query    = $this->getCallbackQuery();
 	    $callback_query_id = $callback_query->getId();
 	    $callback_data     = $callback_query->getData();
@@ -127,9 +134,25 @@ class CallbackqueryCommand extends SystemCommand
 		    $rowRating->save();
 	    }
 
+      Request::answerCallbackQuery([
+        'callback_query_id' => $callback_query_id,
+        'text'              => 'Понял, принял😉'
+      ]);
+
+      $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
+                    LEFT JOIN rating ON track.id = rating.track_id 
+                    WHERE inline_message_id = $id 
+                    GROUP BY track.id";
+
+      $rowTrack = (new Simple(
+        null,
+        null,
+        (new \Track())->getReadConnection()->query($sqlQuery)
+      ))->toArray()[0];
+
 	    $inline_keyboard = new InlineKeyboard([
-		    ['text' => "👍🏻 {$rowTrack->likes}", 'callback_data' => 'like'],
-		    ['text' => "👎🏻 {$rowTrack->dislikes}", 'callback_data' => 'dislike'],
+		    ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
+		    ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
 	    ]);
 
 	    Request::editMessageReplyMarkup([
@@ -138,18 +161,11 @@ class CallbackqueryCommand extends SystemCommand
 		    'reply_markup' => $inline_keyboard
 	    ]);
 
-
-
 	    Request::editMessageReplyMarkup([
 		    'inline_message_id' => $id,
 		    'reply_markup' => $inline_keyboard
 	    ]);
 
-	    $data = [
-		    'callback_query_id' => $callback_query_id,
-		    'text'              => 'Понял, принял😉'
-	    ];
-
-	    return Request::answerCallbackQuery($data);
+	    return true;
     }
 }
