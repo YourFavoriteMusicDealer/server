@@ -110,6 +110,8 @@ class CallbackqueryCommand extends SystemCommand
 
     private function _inlineMessage($id)
     {
+      $rowTrack = \TrackInlinemessage::findFirst("inline_message_id = '$id'")->track;
+
 	    $callback_query    = $this->getCallbackQuery();
 	    $callback_query_id = $callback_query->getId();
 	    $callback_data     = $callback_query->getData();
