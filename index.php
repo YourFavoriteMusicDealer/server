@@ -37,8 +37,6 @@ $config = ConfigIni::getInstance()->bot;
 
 $telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
 
-$telegram->enableBotan('15c09989-c082-4a09-aa58-7529fc7e6159');
-
 $telegram->addCommandsPaths([
 	__DIR__ . '/Commands/'
 ]);
