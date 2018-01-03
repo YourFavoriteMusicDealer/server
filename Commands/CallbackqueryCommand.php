@@ -100,8 +100,8 @@ class CallbackqueryCommand extends SystemCommand
 		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
 		    'message_id' => $callback_query->getMessage()->getMessageId(),
 		    'reply_markup' => new InlineKeyboard([
-          ['text' => "👍🏻 " . time(), 'callback_data' => 'like'],
-          ['text' => "👎🏻 " . time(), 'callback_data' => 'dislike'],
+          ['text' => "👍🏻 " . substr((string)time(), -3)), 'callback_data' => 'like'],
+          ['text' => "👎🏻 " . substr((string)time(), -3), 'callback_data' => 'dislike'],
         ])
 	    ]);
 
