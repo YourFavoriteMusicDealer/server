@@ -85,23 +85,23 @@ class CallbackqueryCommand extends SystemCommand
         'text'              => 'Понял, принял😉'
       ]);
 
-      $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
-                    LEFT JOIN rating ON track.id = rating.track_id 
-                    WHERE telegram_message_id = $messageId 
-                    GROUP BY track.id";
-
-      $rowTrack = (new Simple(
-        null,
-        null,
-        (new \Track())->getReadConnection()->query($sqlQuery)
-      ))->toArray()[0];
+//      $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
+//                    LEFT JOIN rating ON track.id = rating.track_id
+//                    WHERE telegram_message_id = $messageId
+//                    GROUP BY track.id";
+//
+//      $rowTrack = (new Simple(
+//        null,
+//        null,
+//        (new \Track())->getReadConnection()->query($sqlQuery)
+//      ))->toArray()[0];
 
 	    Request::editMessageReplyMarkup([
 		    'chat_id' => $callback_query->getMessage()->getChat()->getId(),
 		    'message_id' => $callback_query->getMessage()->getMessageId(),
 		    'reply_markup' => new InlineKeyboard([
-          ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
-          ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
+          ['text' => "👍🏻 " . time(), 'callback_data' => 'like'],
+          ['text' => "👎🏻 " . time(), 'callback_data' => 'dislike'],
         ])
 	    ]);
 
