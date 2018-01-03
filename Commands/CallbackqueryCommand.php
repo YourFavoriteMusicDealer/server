@@ -99,7 +99,7 @@ class CallbackqueryCommand extends SystemCommand
       $curl = curl_init();
 
       curl_setopt_array($curl, [
-        CURLOPT_URL => "http://api.telegram.org/bot461745599:AAHzddZi6dUJ2o2eOOhvsP1ecgnB8WQF5iM/editMessageReplyMarkup?chat_id={$callback_query->getMessage()->getChat()->getId()}&message_id={$callback_query->getMessage()->getMessageId()}&reply_markup={%22inline_keyboard%22:%20[[{%20%22text%22:%20%22%F0%9F%91%8D%F0%9F%8F%BB%20{$rowTrack['likes']}%22,%20%22callback_data%22:%20%22like%22},%20{%20%22text%22:%20%22%F0%9F%91%8E%F0%9F%8F%BB%20{$rowTrack['dislikes']}%22,%22callback_data%22:%20%22dislike%22}]]}",
+        CURLOPT_URL => "http://api.telegram.org/bot461745599:AAHzddZi6dUJ2o2eOOhvsP1ecgnB8WQF5iM/editMessageReplyMarkup?chat_id={$callback_query->getMessage()->getChat()->getId()}&message_id={$callback_query->getMessage()->getMessageId()}&reply_markup={%22inline_keyboard%22:%20[[{%20%22text%22:%20%22{$rowTrack['likes']}%22,%20%22callback_data%22:%20%22like%22},%20{%20%22text%22:%20%22{$rowTrack['dislikes']}%22,%22callback_data%22:%20%22dislike%22}]]}",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,
