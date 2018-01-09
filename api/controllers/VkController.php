@@ -170,12 +170,17 @@ class VkController extends Controller
 	private function _setMetatag(&$track)
 	{
 		$oldTagData = $this->_id3->analyze($track->url);
-
 		$track->duration = (int) $oldTagData['playtime_seconds'];
 
-		$tagData = isset($oldTagData['tags']['id3v2']) ? $oldTagData['tags']['id3v2'] : $oldTagData['tags']['id3v1'];
+		if (isset($oldTagData['tags'])) {
+      $tagData = isset($oldTagData['tags']['id3v2']) ? $oldTagData['tags']['id3v2'] : $oldTagData['tags']['id3v1'];
+    } else {
+		  $tagData = [];
+    }
 
-		$tagData['attached_picture'] = $oldTagData['comments']['picture'];
+    if (isset($oldTagData['comments']) && isset($oldTagData['comments']['picture'])) {
+		  $tagData['attached_picture'] = $oldTagData['comments']['picture'];
+    }
 
 		$tagwriter = new getid3_writetags;
 		$tagwriter->filename       = $track->url;
