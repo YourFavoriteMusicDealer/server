@@ -137,8 +137,14 @@ class VkController extends Controller
 
 		//Скачиваем в temp
 		if ($fp_remote = fopen($url, 'rb')) {
-			$localtempfilename = sys_get_temp_dir() . "/{$track->artist} - {$track->title}.mp3";
+		  $tempDir = sys_get_temp_dir();
 
+		  if (substr($tempDir, -1) != '/') {
+		    $tempDir .= '/';
+      }
+
+			$localtempfilename = $tempDir . "{$track->artist} - {$track->title}.mp3";
+		  
 			$track->localPath = $localtempfilename;
 
 			if ($fp_local = fopen($localtempfilename, 'wb')) {
