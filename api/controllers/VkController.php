@@ -23,61 +23,88 @@ class VkController extends Controller
 	 */
 	public function callbackAction()
 	{
-		$input = $this->_getInput();
+    $input = $this->_getInput();
 
-		$postId = $input->object->id;
-		$fromId = $input->object->from_id;
+    $postId = $input->object->id;
+    $fromId = $input->object->from_id;
 
-		$this->_initId3();
+		$postInDB = Post::findFirst("owner_id = $fromId AND post_id = $postId");
 
-		$post = $this->_getPost($fromId, $postId);
+		if ($postInDB) {
+      //Если уже обрабатывали или в обработке такой пост - далее
+      switch ($postInDB->status) {
+        case Post::STATUS_COMPLETE:
+          return 'ok';
+        case Post::STATUS_IN_PROCESS:
+          return 'in process';
+      }
+    } else {
+      $postInDB = new Post([
+        'owner_id' => $fromId,
+        'post_id' => $postId,
+        'status'  => Post::STATUS_IN_PROCESS
+      ]);
 
-		//Пропускаем рекламные посты
-		if ($post->marked_as_ads) return;
+      $postInDB->save();
+    }
 
-		//Если уже обрабатывали такой пост - далее
-		if (Post::findFirst("owner_id = {$post->owner_id} AND post_id = {$post->id}")) return;
+    $this->_initId3();
 
-		$tracks = $this->_getTracksByPost($post);
+    $post = $this->_getPost($fromId, $postId);
 
-		foreach ($tracks as $track) {
-			try {
-				$this->_normalizeMetadata($track);
-				$this->_fileWithMetatag($track);
+    //Пропускаем рекламные посты
+    if ($post->marked_as_ads) return;
 
-				$response = $this->_sendTrack($track);
-			} catch (Exception $e) {
-				continue;
-			}
+    try {
+      $tracks = $this->_getTracksByPost($post);
 
-			if ($response->isOk()) {
-				$result = $response->getResult();
+      foreach ($tracks as $track) {
+        try {
+          $this->_normalizeMetadata($track);
+          $this->_fileWithMetatag($track);
 
-				$track_id = $result->getAudio()->getFileId();
-				$message_id = $result->getMessageId();
+          $response = $this->_sendTrack($track);
+        } catch (Exception $e) {
+          continue;
+        }
 
-				$newTrackInDB = new Track([
-					'artist' => $track->artist,
-					'title' => $track->title,
-					'img' => $track->album->thumb->photo_600,
-					'telegram_file_id' => $track_id,
-					'telegram_message_id' => $message_id,
-					'hash' => $track->hash
-				]);
+        if ($response->isOk()) {
+          $result = $response->getResult();
 
-				$newTrackInDB->save();
-			}
-		}
+          $track_id = $result->getAudio()->getFileId();
+          $message_id = $result->getMessageId();
 
-		//Запоминаем, что этот пост обработали
-		$newPostInDB = new Post([
-			'owner_id' => $post->owner_id,
-			'post_id' => $post->id
-		]);
+          $data = [
+            'artist' => $track->artist,
+            'title' => $track->title,
+            'telegram_file_id' => $track_id,
+            'telegram_message_id' => $message_id,
+            'hash' => $track->hash
+          ];
 
-		$newPostInDB->save();
+          if (isset($track->album->thumb->photo_600)) {
+            $data['img'] = $track->album->thumb->photo_600;
+          }
 
-		return 'ok';
+          $newTrackInDB = new Track($data);
+
+          $newTrackInDB->save();
+        }
+      }
+
+      //Запоминаем, что этот пост обработали
+      $postInDB->status = Post::STATUS_COMPLETE;
+
+      $postInDB->save();
+
+      return 'ok';
+    } catch (Exception $e) {
+		  $postInDB->status = Post::STATUS_ERROR;
+
+		  $postInDB->save();
+
+		  return 'error';
+    }
 	}
 
 	private function _getPost($fromId, $postId)
