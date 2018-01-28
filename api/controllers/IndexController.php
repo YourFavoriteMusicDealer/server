@@ -1,5 +1,7 @@
 <?php
 
+use Phalcon\Http\Response;
+
 /**
  * @RoutePrefix('/index')
  */
@@ -11,7 +13,7 @@ class IndexController extends Controller
 	 */
 	public function indexAction()
 	{
-		return 1;
+		$this->response->redirect('https://t.me/jonkofee_music', true);
 	}
 
 	public function notFoundAction()
