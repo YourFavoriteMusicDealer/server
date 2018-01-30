@@ -120,7 +120,7 @@ class GenericmessageCommand extends SystemCommand
 
     Request::sendMessage([
       'chat_id' => $message->getChat()->getId(),
-      'text'    => "Вот топ 10 треков по мнению моих подписчиков"
+      'text'    => "Вот топ 10 треков по мнению моих подписчиков за последний месяц"
     ]);
 
     foreach ($arr as $track) {
