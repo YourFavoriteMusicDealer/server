@@ -53,7 +53,10 @@ class InlinequeryCommand extends SystemCommand
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
-		$data = ['inline_query_id' => $inline_query->getId()];
+		$data = [
+		  'inline_query_id' => $inline_query->getId(),
+      'next_offset' => 10
+    ];
 
 		$results = [];
 
