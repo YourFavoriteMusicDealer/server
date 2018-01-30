@@ -67,7 +67,8 @@ class StartCommand extends SystemCommand
             'keyboard' => [
               ['text' => '⏯ Плейлист'],
               ['text' => '🔝10 месяца']
-            ]
+            ],
+            'resize_keyboard' => true
           ])
         ]);
 
