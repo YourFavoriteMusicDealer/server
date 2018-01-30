@@ -59,7 +59,7 @@ class CallbackqueryCommand extends SystemCommand
 
       $telegramFileId = $callback_query->getMessage()->getAudio()->getFileId();
 
-      $rowTrack = \Track::findFirst("telegram_file_id = $telegramFileId");
+      $rowTrack = \Track::findFirst("telegram_file_id = '$telegramFileId'");
 
       if (!$rowTrack) return false;
 
@@ -87,7 +87,7 @@ class CallbackqueryCommand extends SystemCommand
 
       $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
                     LEFT JOIN rating ON track.id = rating.track_id 
-                    WHERE telegram_file_id = $telegramFileId 
+                    WHERE telegram_file_id = '$telegramFileId'
                     GROUP BY track.id";
 
       $rowTrack = (new Simple(
