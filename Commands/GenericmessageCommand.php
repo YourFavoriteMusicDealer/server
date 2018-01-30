@@ -98,7 +98,7 @@ class GenericmessageCommand extends SystemCommand
 		LEFT JOIN rating ON track.id = rating.track_id
 		WHERE date_trunc('day', LOCALTIMESTAMP) - date_trunc('day', track.datetime_create) <= interval '30 days'
 		GROUP BY track.id
-		ORDER BY rating desc, likes desc LIMIT 10;";
+		ORDER BY rating desc, likes, datetime_create desc desc LIMIT 10;";
 
 
     $arr =  (new Simple(
