@@ -56,8 +56,7 @@ class InlinequeryCommand extends SystemCommand
 		$offset = (int) $inline_query->getOffset();
 
 		$data = [
-		  'inline_query_id' => $inline_query->getId(),
-      'next_offset' => $offset + 10
+		  'inline_query_id' => $inline_query->getId()
     ];
 
 		$results = [];
@@ -92,6 +91,8 @@ class InlinequeryCommand extends SystemCommand
 		}
 
 		$data['results'] = json_encode($results);
+
+		$data['next_offset'] = $arrTracks ? $offset + 10 : '';
 
 		$request = Request::answerInlineQuery($data);
 
