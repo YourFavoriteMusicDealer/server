@@ -11,7 +11,7 @@
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
 use Longman\TelegramBot\Commands\SystemCommand;
-use Longman\TelegramBot\Entities\InlineKeyboard;
+use Longman\TelegramBot\Entities\Keyboard;
 use Longman\TelegramBot\Request;
 
 /**
@@ -55,19 +55,24 @@ class StartCommand extends SystemCommand
     public function execute()
     {
         $message = $this->getMessage();
+        $chat_id = $message->getChat()->getId();
+
+        Request::sendMessage([
+          'chat_id'               => $chat_id,
+          'parse_mode'            => 'Markdown',
+          'text'                  => 'Привет, *' . $message->getFrom()->getFirstName() . '*!' . PHP_EOL .
+                                     'Чутка музыки не хочешь?😎',
+          'disable_notification'  => true,
+          'reply_markup'          => new Keyboard([
+            'keyboard' => [
+              ['text' => '⏯ Плейлист'],
+              ['text' => '🔝10 месяца']
+            ]
+          ])
+        ]);
 
         if ($message->getText(true) === 'myplaylist') {
 	        $this->telegram->executeCommand('myplaylist');
-	        return;
         }
-
-        $chat_id = $message->getChat()->getId();
-
-        $data = [
-            'chat_id' => $chat_id,
-            'sticker'    => 'CAADAgADBgADNE9jE9ZEwybz3IbWAg'
-        ];
-
-        return Request::sendSticker($data);
     }
 }
