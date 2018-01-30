@@ -33,24 +33,24 @@ class GenericmessageCommand extends SystemCommand
     $message = $this->getMessage();
 
     switch ($message->getText()) {
+      case 'плейлист':
+      case 'Плейлист':
+      case 'playlist':
+      case 'Playlist':
+      case 'песни':
+      case 'tracks':
       case '⏯ Плейлист':
         return $this->_myplalist($message);
         break;
+      case 'top':
+      case 'top 10':
+      case 'top10':
       case '🔝10 месяца':
         return $this->_top($message);
         break;
       default:
         return;
     }
-
-    $chat_id = $message->getChat()->getId();
-
-    $data = [
-      'chat_id' => $chat_id,
-      'sticker'    => 'CAADAgADBgADNE9jE9ZEwybz3IbWAg'
-    ];
-
-    return Request::sendSticker($data);
   }
 
   private function _myplalist($message)
