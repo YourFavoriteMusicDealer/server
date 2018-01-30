@@ -32,15 +32,14 @@ class GenericmessageCommand extends SystemCommand
   {
     $message = $this->getMessage();
 
-    switch ($message->getText()) {
+    switch (strtolower($message->getText())) {
       case 'плейлист':
-      case 'Плейлист':
       case 'playlist':
-      case 'Playlist':
       case 'песни':
       case 'tracks':
+      case '/myplaylist':
       case '⏯ Плейлист':
-        return $this->_myplalist($message);
+        return $this->_myplalist();
         break;
       case 'top':
       case 'top 10':
@@ -53,43 +52,9 @@ class GenericmessageCommand extends SystemCommand
     }
   }
 
-  private function _myplalist($message)
+  private function _myplalist()
   {
-    $userId = $message->getFrom()->getId();
-
-    $sqlQuery = "SELECT track.telegram_message_id FROM rating
-					LEFT JOIN track ON track.id = rating.track_id
-					WHERE user_id = $userId AND lik = TRUE";
-
-
-    $arr =  (new Simple(
-      null,
-      null,
-      (new \Track())->getReadConnection()->query($sqlQuery)
-    ))->toArray();
-
-    if (!$arr) {
-      Request::sendMessage([
-        'chat_id' => $message->getChat()->getId(),
-        'text' => 'Нет избранных песен. Для того, чтобы они появились нужно поставить 👍🏻 на понравившейся песне в нашем канале',
-        'reply_markup' => new \Longman\TelegramBot\Entities\InlineKeyboard([
-          ['text' => "Перейти в канал", 'url' => 'https://t.me/jonkofee_music']
-        ])
-      ]);
-    }
-
-    foreach ($arr as $item) {
-      $data = [
-        'chat_id' => $message->getChat()->getId(),
-        'from_chat_id' => '@jonkofee_music',
-        'message_id' => $item['telegram_message_id'],
-        'disable_notification' => true
-      ];
-
-      \Longman\TelegramBot\Request::forwardMessage($data);
-    }
-
-    return true;
+    $this->telegram->executeCommand('myplaylist');
   }
 
   private function _top($message)
