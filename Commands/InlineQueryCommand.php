@@ -63,7 +63,7 @@ class InlinequeryCommand extends SystemCommand
 					LEFT JOIN rating ON track.id = rating.track_id
 					WHERE LOWER(track.artist) LIKE LOWER('%$query%') OR LOWER(track.title) LIKE LOWER('%$query%')
 					GROUP BY track.id
-					ORDER BY rating desc, likes desc";
+					ORDER BY rating desc, likes desc LIMIT 10";
 
 			$arrTracks = (new Simple(
 				null,
