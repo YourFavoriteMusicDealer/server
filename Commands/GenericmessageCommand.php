@@ -118,6 +118,11 @@ class GenericmessageCommand extends SystemCommand
       ]);
     }
 
+    Request::sendMessage([
+      'chat_id' => $message->getChat()->getId(),
+      'text'    => "Вот топ 10 треков по мнению моих подписчиков"
+    ]);
+
     foreach ($arr as $track) {
       $inline_keyboard = new \Longman\TelegramBot\Entities\InlineKeyboard([
         ['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
