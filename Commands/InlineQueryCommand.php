@@ -53,9 +53,11 @@ class InlinequeryCommand extends SystemCommand
 		$inline_query = $this->getInlineQuery();
 		$query        = $inline_query->getQuery();
 
+		$offset = (int) $inline_query->getOffset();
+
 		$data = [
 		  'inline_query_id' => $inline_query->getId(),
-      'next_offset' => 10
+      'next_offset' => $offset + 10
     ];
 
 		$results = [];
@@ -66,7 +68,7 @@ class InlinequeryCommand extends SystemCommand
 					LEFT JOIN rating ON track.id = rating.track_id
 					WHERE LOWER(track.artist) LIKE LOWER('%$query%') OR LOWER(track.title) LIKE LOWER('%$query%')
 					GROUP BY track.id
-					ORDER BY rating desc, likes desc LIMIT 10";
+					ORDER BY rating desc, likes desc LIMIT 10 OFFSET $offset";
 
 			$arrTracks = (new Simple(
 				null,
