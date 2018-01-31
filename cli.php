@@ -49,6 +49,7 @@ $telegram->addCommandsPaths([
 \Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$config->bot->username}_update.log");
 
 $di['bot'] = $telegram;
+$di['telegraph'] = new \Core\Telegraph($config->telegraph);
 
 // Создание консольного приложения
 $console = new ConsoleApp();
