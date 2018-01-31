@@ -30,8 +30,7 @@ class TopTask extends Task
     $telegraph = $this->getDI()->get('telegraph');
 
     $content = $this->_constructContent($tracks);
-//    $title = "Топ $count за " . strtolower($this->_rusMonth[date( "n" ) - 1]) . ' ' . date( "Y" );
-    $title = 'test';
+    $title = "Топ $count за " . strtolower($this->_rusMonth[date( "n" ) - 1]) . ' ' . date( "Y" );
 
     $post = $telegraph->createPage($title, $content);
     $postUrl = $post->url;
