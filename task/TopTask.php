@@ -37,12 +37,12 @@ class TopTask extends Task
     $postUrl = $post->url;
 
     $this->_editMainPage($postUrl);
-    
-    return \Longman\TelegramBot\Request::sendMessage([
+//var_dump('[Топ ' . $count . ' за ' . mb_strtolower($this->_rusMonth[date( "n" ) - 1]) . "]($postUrl)");die;
+    var_dump(\Longman\TelegramBot\Request::sendMessage([
       'chat_id'               => 388750726,
       'parse_mode'            => 'Markdown',
       'text'                  => '[Топ ' . $count . ' за ' . mb_strtolower($this->_rusMonth[date( "n" ) - 1]) . "]($postUrl)"
-    ]);
+    ]));
   }
 
   private function _getTopTrackByLastMonth($count)
