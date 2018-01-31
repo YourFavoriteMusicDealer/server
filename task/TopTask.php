@@ -38,9 +38,9 @@ class TopTask extends Task
     $this->_editMainPage($postUrl);
 
     return \Longman\TelegramBot\Request::sendMessage([
-      'chat_id'               => 325275444,
+      'chat_id'               => -1001149842026,
       'parse_mode'            => 'Markdown',
-      'text'                  => '[Топ ' . $count . ' за ' . mb_strtolower($this->_rusMonth[date( "n" ) - 1]) . "]($postUrl)"
+      'text'                  => 'Топ ' . $count . ' за [' . mb_strtolower($this->_rusMonth[date( "n" ) - 1]) . "]($postUrl)"
     ]);
   }
 
