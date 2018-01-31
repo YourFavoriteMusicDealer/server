@@ -8,3 +8,5 @@ vendor/
 \.phalcon/migration-version
 
 *.log
+
+api/config/config\.ini
