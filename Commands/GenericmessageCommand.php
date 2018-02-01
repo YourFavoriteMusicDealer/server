@@ -122,6 +122,13 @@ class GenericmessageCommand extends SystemCommand
 
     $voice = $message->getVoice();
 
+    if ($voice->getDuration() < 5) {
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => "Слишком мало, дайте хотябы секунд 5 полушать😊",
+      ]);
+    }
+
     /* @var File $telegramFile */
     $telegramFile = Request::getFile([
       'file_id' => $voice->getFileId()
