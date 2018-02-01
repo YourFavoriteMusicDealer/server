@@ -136,6 +136,11 @@ class GenericmessageCommand extends SystemCommand
 
     $fileUrl = "https://api.telegram.org/file/bot" . $config->bot->token . "/" . $telegramFile->getFilePath();
 
+    Request::sendChatAction([
+      'chat_id' => $message->getChat()->getId(),
+      'action' => 'typing'
+    ]);
+
     if ($fp_remote = fopen($fileUrl, 'rb')) {
       $localtempfilename = sys_get_temp_dir() . "/{$telegramFile->getFileId()}.ogg";
 
