@@ -182,20 +182,23 @@ class GenericmessageCommand extends SystemCommand
 
     $data = json_decode($response);
 
-    if ($data->status->code == 0) {
-      $meta = $data->metadata->music[0];
+    if ($data->status->code != 0) {
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => 'Хмммм... Что-то я не знаю такой трек🤔',
+      ]);
+    }
 
-      $arrArtists = array_column($meta->artists, 'name');
+    $meta = $data->metadata->music[0];
 
-      $text = $arrArtists[0] . ' - ' . $meta->title;
+    $arrArtists = array_column($meta->artists, 'name');
 
-      if (count($arrArtists) > 1) {
-        unset($arrArtists[0]);
+    $text = $arrArtists[0] . ' - ' . $meta->title;
 
-        $text .= ' ' . '(feat. ' . implode(', ', $arrArtists) . ')';
-      }
-    } else {
-      $text = 'Хмммм... Что-то я не знаю такой трек🤔';
+    if (count($arrArtists) > 1) {
+      unset($arrArtists[0]);
+
+      $text .= ' ' . '(feat. ' . implode(', ', $arrArtists) . ')';
     }
 
     return Request::sendMessage([
