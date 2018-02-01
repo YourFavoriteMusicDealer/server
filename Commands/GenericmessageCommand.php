@@ -125,7 +125,7 @@ class GenericmessageCommand extends SystemCommand
     if ($voice->getDuration() < 5) {
       return Request::sendMessage([
         'chat_id' => $message->getChat()->getId(),
-        'text' => "Слишком мало, дайте хотябы секунд 5 полушать😊",
+        'text' => "Слишком мало, дайте хотябы секунд 5 послушать😊",
       ]);
     }
 
