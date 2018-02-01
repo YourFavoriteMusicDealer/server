@@ -193,17 +193,47 @@ class GenericmessageCommand extends SystemCommand
 
     $arrArtists = array_column($meta->artists, 'name');
 
-    $text = $arrArtists[0] . ' - ' . $meta->title;
+    $firstArtist = mb_strtolower(explode(' ', $arrArtists[0])[0]);
+    $title = mb_strtolower($meta->title);
 
-    if (count($arrArtists) > 1) {
-      unset($arrArtists[0]);
+    $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
+					LEFT JOIN rating ON track.id = rating.track_id
+					WHERE LOWER(track.artist) LIKE LOWER('%$firstArtist%') AND LOWER(track.title) LIKE LOWER('%$title%')
+					GROUP BY track.id
+					LIMIT 1";
 
-      $text .= ' ' . '(feat. ' . implode(', ', $arrArtists) . ')';
+    $track = (new Simple(
+      null,
+      null,
+      (new \Track())->getReadConnection()->query($sqlQuery)
+    ))->toArray();
+
+    if (!$track) {
+      $text = $arrArtists[0] . ' - ' . $meta->title;
+
+      if (count($arrArtists) > 1) {
+        unset($arrArtists[0]);
+
+        $text .= ' ' . '(feat. ' . implode(', ', $arrArtists) . ')';
+      }
+
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => $text,
+      ]);
     }
 
-    return Request::sendMessage([
+    $track = $track[0];
+
+    return \Longman\TelegramBot\Request::sendAudio([
       'chat_id' => $message->getChat()->getId(),
-      'text' => $text,
+      'audio'  => $track['telegram_file_id'],
+      'reply_markup' => new \Longman\TelegramBot\Entities\InlineKeyboard([
+        ['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+        ['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+      ]),
+      'performer' => $track['artist'],
+      'title' => $track['title']
     ]);
   }
 }
