@@ -9,6 +9,7 @@ use Phalcon\Db\Adapter\Pdo\Factory;
 
 require 'vendor/autoload.php';
 require 'Core/ConfigIni.php';
+require 'Core/Telegraph.php';
 
 // Использование стандартного CLI контейнера для сервисов
 $di = new CliDI();
@@ -49,6 +50,7 @@ $telegram->addCommandsPaths([
 \Longman\TelegramBot\TelegramLog::initUpdateLog(__DIR__ . "/{$config->bot->username}_update.log");
 
 $di['bot'] = $telegram;
+$di['telegraph'] = new \Core\Telegraph($config->telegraph);
 
 // Создание консольного приложения
 $console = new ConsoleApp();

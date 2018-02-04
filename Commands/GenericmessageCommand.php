@@ -1,8 +1,11 @@
 <?php
 namespace Longman\TelegramBot\Commands\SystemCommands;
 
+use Longman\TelegramBot\Entities\File;
+use Longman\TelegramBot\Entities\Message;
 use Longman\TelegramBot\Request;
 use Longman\TelegramBot\Commands\SystemCommand;
+use Phalcon\Exception;
 use Phalcon\Mvc\Model\Resultset\Simple;
 /**
  * Generic message command
@@ -32,21 +35,21 @@ class GenericmessageCommand extends SystemCommand
   {
     $message = $this->getMessage();
 
-    switch (strtolower($message->getText())) {
-      case 'плейлист':
-      case 'playlist':
-      case 'песни':
-      case 'tracks':
-      case '/myplaylist':
-      case '⏯ Плейлист':
+    switch (true) {
+      case strtolower($message->getText()) == 'плейлист':
+      case strtolower($message->getText()) == 'playlist':
+      case strtolower($message->getText()) == 'песни':
+      case strtolower($message->getText()) == 'tracks':
+      case strtolower($message->getText()) == '/myplaylist':
+      case strtolower($message->getText()) == '⏯ Плейлист':
         return $this->_myplalist();
-        break;
-      case 'top':
-      case 'top 10':
-      case 'top10':
-      case '🔝10 месяца':
+      case strtolower($message->getText()) == 'top':
+      case strtolower($message->getText()) == 'top 10':
+      case strtolower($message->getText()) == 'top10':
+      case strtolower($message->getText()) == '🔝10 месяца':
         return $this->_top($message);
-        break;
+      case $this->_isVoice():
+        return $this->_recognitionAudio($message);
       default:
         return;
     }
@@ -57,7 +60,7 @@ class GenericmessageCommand extends SystemCommand
     $this->telegram->executeCommand('myplaylist');
   }
 
-  private function _top($message)
+  private function _top(Message $message)
   {
     $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes, COALESCE(SUM(lik::integer) - SUM(dislik::integer), 0) as rating FROM track
 		LEFT JOIN rating ON track.id = rating.track_id
@@ -106,5 +109,131 @@ class GenericmessageCommand extends SystemCommand
     }
 
     return true;
+  }
+
+  private function _isVoice()
+  {
+    return (bool) $this->getMessage()->getVoice();
+  }
+
+  private function _recognitionAudio(Message $message)
+  {
+    $config = \ConfigIni::getInstance();
+
+    $voice = $message->getVoice();
+
+    if ($voice->getDuration() < 5) {
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => "Слишком мало, дайте хотябы секунд 5 послушать😊",
+      ]);
+    }
+
+    /* @var File $telegramFile */
+    $telegramFile = Request::getFile([
+      'file_id' => $voice->getFileId()
+    ])->getResult();
+
+    $fileUrl = "https://api.telegram.org/file/bot" . $config->bot->token . "/" . $telegramFile->getFilePath();
+
+    Request::sendChatAction([
+      'chat_id' => $message->getChat()->getId(),
+      'action' => 'typing'
+    ]);
+
+    if ($fp_remote = fopen($fileUrl, 'rb')) {
+      $localtempfilename = sys_get_temp_dir() . "/{$telegramFile->getFileId()}.ogg";
+
+      if ($fp_local = fopen($localtempfilename, 'wb')) {
+        while ($buffer = fread($fp_remote, 8192)) {
+          fwrite($fp_local, $buffer);
+        }
+
+        fclose($fp_local);
+      }
+      fclose($fp_remote);
+    } else {
+      throw new Exception('Не получается загрузить файл');
+    }
+
+    $post = [
+      "sample"            => new \CURLFile($localtempfilename, "mp3", basename($localtempfilename)),
+      "sample_bytes"      => filesize($localtempfilename),
+      "access_key"        => $config->acr->key,
+      "data_type"         => 'audio',
+      "signature"         => base64_encode(hash_hmac("sha1", "POST" . "\n" . "/v1/identify" ."\n" . $config->acr->key . "\n" . "audio" . "\n" . "1" . "\n" . time(), $config->acr->secret, true)),
+      "signature_version" => "1",
+      "timestamp"         => time()
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, "http://identify-eu-west-1.acrcloud.com/v1/identify");
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+    $response = curl_exec($ch);
+
+    unlink($localtempfilename);
+
+    if (!$response) {
+      throw new Exception(curl_error($ch));
+    }
+
+    $data = json_decode($response);
+
+    if ($data->status->code != 0) {
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => 'Хмммм... Что-то я не знаю такой трек🤔',
+      ]);
+    }
+
+    $meta = $data->metadata->music[0];
+
+    $arrArtists = array_column($meta->artists, 'name');
+
+    $firstArtist = mb_strtolower(explode(' ', $arrArtists[0])[0]);
+    $title = mb_strtolower($meta->title);
+
+    $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
+					LEFT JOIN rating ON track.id = rating.track_id
+					WHERE LOWER(track.artist) LIKE LOWER('%$firstArtist%') AND LOWER(track.title) LIKE LOWER('%$title%')
+					GROUP BY track.id
+					LIMIT 1";
+
+    $track = (new Simple(
+      null,
+      null,
+      (new \Track())->getReadConnection()->query($sqlQuery)
+    ))->toArray();
+
+    if (!$track) {
+      $text = $arrArtists[0] . ' - ' . $meta->title;
+
+      if (count($arrArtists) > 1) {
+        unset($arrArtists[0]);
+
+        $text .= ' ' . '(feat. ' . implode(', ', $arrArtists) . ')';
+      }
+
+      return Request::sendMessage([
+        'chat_id' => $message->getChat()->getId(),
+        'text' => $text,
+      ]);
+    }
+
+    $track = $track[0];
+
+    return \Longman\TelegramBot\Request::sendAudio([
+      'chat_id' => $message->getChat()->getId(),
+      'audio'  => $track['telegram_file_id'],
+      'reply_markup' => new \Longman\TelegramBot\Entities\InlineKeyboard([
+        ['text' => "👍🏻 {$track['likes']}", 'callback_data' => 'like'],
+        ['text' => "👎🏻 {$track['dislikes']}", 'callback_data' => 'dislike'],
+      ]),
+      'performer' => $track['artist'],
+      'title' => $track['title']
+    ]);
   }
 }
