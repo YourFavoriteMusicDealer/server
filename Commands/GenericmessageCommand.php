@@ -191,10 +191,10 @@ class GenericmessageCommand extends SystemCommand
 
     $meta = $data->metadata->music[0];
 
-    $arrArtists = array_column($meta->artists, 'name');
+    $arrArtists = array_unique(array_column($meta->artists, 'name'));
 
-    $firstArtist = mb_strtolower(explode(' ', $arrArtists[0])[0]);
-    $title = mb_strtolower($meta->title);
+    $firstArtist = str_replace("'", '', mb_strtolower(explode(' ', $arrArtists[0])[0]));
+    $title = str_replace("'", '', mb_strtolower($meta->title));
 
     $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track
 					LEFT JOIN rating ON track.id = rating.track_id
