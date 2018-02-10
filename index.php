@@ -80,7 +80,7 @@ try {
 			'message' => is_array($e->getMessage()) ? $e->getMessage() : [$e->getMessage()]
 		];
 	}
-var_dump($result);die;
+
 	$response->setContent($result);
 
 	$response->sendHeaders();
