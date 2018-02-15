@@ -87,7 +87,7 @@ class CallbackqueryCommand extends SystemCommand
 
       if ($callback_data === 'like') {
         \Longman\TelegramBot\Request::forwardMessage([
-          'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+          'chat_id' => $callback_query->getFrom()->getId(),
           'from_chat_id' => '@jonkofee_music',
           'message_id' => $callback_query->getMessage()->getMessageId(),
           'disable_notification' => true
