@@ -88,11 +88,11 @@ class InlinequeryCommand extends SystemCommand
 					'reply_markup' => $inline_keyboard
 				]);
 			}
+
+      $data['next_offset'] = $arrTracks ? $offset + 10 : '';
 		}
 
 		$data['results'] = json_encode($results);
-
-		$data['next_offset'] = $arrTracks ? $offset + 10 : '';
 
 		$request = Request::answerInlineQuery($data);
 
