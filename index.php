@@ -83,7 +83,7 @@ try {
 		];
 	}
 
-	$response->setContent($result);
+	$response->setJsonContent($result);
 
 	$response->sendHeaders();
 
