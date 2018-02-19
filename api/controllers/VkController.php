@@ -50,12 +50,12 @@ class VkController extends Controller
 
     $this->_initId3();
 
-    $post = $this->_getPost($fromId, $postId);
-
-    //Пропускаем рекламные посты
-    if ($post->marked_as_ads) return;
-
     try {
+      $post = $this->_getPost($fromId, $postId);
+
+      //Пропускаем рекламные посты
+      if ($post->marked_as_ads) return;
+      
       $tracks = $this->_getTracksByPost($post);
 
       foreach ($tracks as $track) {
@@ -132,6 +132,10 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
+		  $response = json_decode($response)->response;
+
+		  if (!$response) throw new Exception('No find post in vk')s;
+
 			return json_decode($response)->response[0];
 		}
 	}
