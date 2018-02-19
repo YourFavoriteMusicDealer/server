@@ -132,11 +132,10 @@ class VkController extends Controller
 		if ($err) {
 			echo "cURL Error #:" . $err;
 		} else {
-		  $response = json_decode($response)->response;
+      $response = json_decode($response)->response;
 
-		  if (!$response) throw new Exception('No find post in vk');
-
-			return json_decode($response)->response[0];
+      if (!$response) throw new Exception('No find post in vk');
+			return $response[0];
 		}
 	}
 
