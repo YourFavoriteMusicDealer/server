@@ -85,14 +85,14 @@ class CallbackqueryCommand extends SystemCommand
         'text'              => 'Понял, принял😉'
       ]);
 
-      if ($callback_data === 'like') {
-        \Longman\TelegramBot\Request::forwardMessage([
-          'chat_id' => $callback_query->getFrom()->getId(),
-          'from_chat_id' => '@jonkofee_music',
-          'message_id' => $callback_query->getMessage()->getMessageId(),
-          'disable_notification' => true
-        ]);
-      }
+//      if ($callback_data === 'like') {
+//        \Longman\TelegramBot\Request::forwardMessage([
+//          'chat_id' => $callback_query->getFrom()->getId(),
+//          'from_chat_id' => '@jonkofee_music',
+//          'message_id' => $callback_query->getMessage()->getMessageId(),
+//          'disable_notification' => true
+//        ]);
+//      }
 
       $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
                     LEFT JOIN rating ON track.id = rating.track_id 
