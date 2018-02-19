@@ -55,7 +55,7 @@ class VkController extends Controller
 
       //Пропускаем рекламные посты
       if ($post->marked_as_ads) return;
-      
+
       $tracks = $this->_getTracksByPost($post);
 
       foreach ($tracks as $track) {
@@ -134,7 +134,7 @@ class VkController extends Controller
 		} else {
 		  $response = json_decode($response)->response;
 
-		  if (!$response) throw new Exception('No find post in vk')s;
+		  if (!$response) throw new Exception('No find post in vk');
 
 			return json_decode($response)->response[0];
 		}
