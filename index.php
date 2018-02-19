@@ -37,6 +37,8 @@ $di->set(
 
 $config = ConfigIni::getInstance()->bot;
 
+(new Raven_Client(ConfigIni::getInstance()->sentry->dns))->install();
+
 $telegram = new \Longman\TelegramBot\Telegram($config->token, $config->username);
 
 $telegram->addCommandsPaths([
