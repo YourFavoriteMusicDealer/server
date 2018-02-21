@@ -57,7 +57,7 @@ class GenericmessageCommand extends SystemCommand
 
   private function _myplalist()
   {
-    $this->telegram->executeCommand('myplaylist');
+    return $this->telegram->executeCommand('myplaylist');
   }
 
   private function _top(Message $message)

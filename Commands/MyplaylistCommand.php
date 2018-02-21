@@ -66,9 +66,9 @@ class MyplaylistCommand extends SystemCommand
         'disable_notification' => true
       ];
 
-      \Longman\TelegramBot\Request::forwardMessage($data);
+      $response = \Longman\TelegramBot\Request::forwardMessage($data);
     }
 
-    return true;
+    return $response;
   }
 }
