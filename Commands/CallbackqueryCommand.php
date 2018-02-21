@@ -48,42 +48,42 @@ class CallbackqueryCommand extends SystemCommand
      */
     public function execute()
     {
-      $callback_query    = $this->getCallbackQuery();
-      $callback_query_id = $callback_query->getId();
-      $callback_data     = $callback_query->getData();
+      try {
+        $callback_query = $this->getCallbackQuery();
+        $callback_query_id = $callback_query->getId();
+        $callback_data = $callback_query->getData();
 
-      if ($inline_message_id = $callback_query->getInlineMessageId()) return $this->_inlineMessage($inline_message_id);
+        if ($inline_message_id = $callback_query->getInlineMessageId()) return $this->_inlineMessage($inline_message_id);
 
-      $fromId = $callback_query->getFrom()->getId();
-      $fromUsername = $callback_query->getFrom()->getUsername();
+        $fromId = $callback_query->getFrom()->getId();
+        $fromUsername = $callback_query->getFrom()->getUsername();
 
-      $telegramFileId = $callback_query->getMessage()->getAudio()->getFileId();
+        $telegramFileId = $callback_query->getMessage()->getAudio()->getFileId();
 
-      $rowTrack = \Track::findFirst("telegram_file_id = '$telegramFileId'");
+        $rowTrack = \Track::findFirst("telegram_file_id = '$telegramFileId'");
+        if (!$rowTrack) return false;
 
-      if (!$rowTrack) return false;
+        $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
 
-      $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
+        if (!$rowRating) {
+          (new \Rating([
+            'user_id' => $fromId,
+            'track_id' => $rowTrack->id,
+            'lik' => $callback_data === 'like',
+            'dislik' => $callback_data === 'dislike',
+            'username' => $fromUsername
+          ]))->save();
+        } else {
+          $rowRating->lik = $callback_data === 'like';
+          $rowRating->dislik = $callback_data === 'dislike';
 
-      if (!$rowRating) {
-        (new \Rating([
-          'user_id' => $fromId,
-          'track_id'=> $rowTrack->id,
-          'lik' => $callback_data === 'like',
-          'dislik' => $callback_data === 'dislike',
-          'username' => $fromUsername
-        ]))->save();
-      } else {
-        $rowRating->lik = $callback_data === 'like';
-        $rowRating->dislik = $callback_data === 'dislike';
+          $rowRating->save();
+        }
 
-        $rowRating->save();
-      }
-
-      Request::answerCallbackQuery([
-        'callback_query_id' => $callback_query_id,
-        'text'              => 'Понял, принял😉'
-      ]);
+        Request::answerCallbackQuery([
+          'callback_query_id' => $callback_query_id,
+          'text' => 'Понял, принял😉'
+        ]);
 
 //      if ($callback_data === 'like') {
 //        \Longman\TelegramBot\Request::forwardMessage([
@@ -94,38 +94,41 @@ class CallbackqueryCommand extends SystemCommand
 //        ]);
 //      }
 
-      $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
+        $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
                     LEFT JOIN rating ON track.id = rating.track_id 
                     WHERE telegram_file_id = '$telegramFileId'
                     GROUP BY track.id";
 
-      $rowTrack = (new Simple(
-        null,
-        null,
-        (new \Track())->getReadConnection()->query($sqlQuery)
-      ))->toArray()[0];
+        $rowTrack = (new Simple(
+          null,
+          null,
+          (new \Track())->getReadConnection()->query($sqlQuery)
+        ))->toArray()[0];
 
-	    Request::editMessageReplyMarkup([
-		    'chat_id' => -1001149842026,
-		    'message_id' => $rowTrack['telegram_message_id'],
-		    'reply_markup' => new InlineKeyboard([
-          ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
-          ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
-        ])
-	    ]);
-
-	    if ($callback_query->getMessage()->getChat()->getId() != -1001149842026) {
         Request::editMessageReplyMarkup([
-          'chat_id' => $callback_query->getMessage()->getChat()->getId(),
-          'message_id' => $callback_query->getMessage()->getMessageId(),
+          'chat_id' => -1001149842026,
+          'message_id' => $rowTrack['telegram_message_id'],
           'reply_markup' => new InlineKeyboard([
             ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
             ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
           ])
         ]);
-      }
 
-	    return true;
+        if ($callback_query->getMessage()->getChat()->getId() != -1001149842026) {
+          Request::editMessageReplyMarkup([
+            'chat_id' => $callback_query->getMessage()->getChat()->getId(),
+            'message_id' => $callback_query->getMessage()->getMessageId(),
+            'reply_markup' => new InlineKeyboard([
+              ['text' => "👍🏻 {$rowTrack['likes']}", 'callback_data' => 'like'],
+              ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
+            ])
+          ]);
+        }
+
+        return true;
+      } catch (\Exception $e) {
+        var_dump($e);die;
+      }
     }
 
     private function _inlineMessage($id)
