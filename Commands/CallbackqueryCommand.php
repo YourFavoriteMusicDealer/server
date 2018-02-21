@@ -60,7 +60,7 @@ class CallbackqueryCommand extends SystemCommand
       $telegramFileId = $callback_query->getMessage()->getAudio()->getFileId();
 
       $rowTrack = \Track::findFirst("telegram_file_id = '$telegramFileId'");
-      if (!$rowTrack) return false;
+      if (!$rowTrack) throw new \Exception("track with $telegramFileId not found");
 
       $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
 
