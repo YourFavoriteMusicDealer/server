@@ -57,7 +57,7 @@ class StartCommand extends SystemCommand
         $message = $this->getMessage();
         $chat_id = $message->getChat()->getId();
 
-        Request::sendMessage([
+        $response = Request::sendMessage([
           'chat_id'               => $chat_id,
           'parse_mode'            => 'Markdown',
           'text'                  => 'Привет, *' . $message->getFrom()->getFirstName() . '*!' . PHP_EOL .
@@ -75,5 +75,7 @@ class StartCommand extends SystemCommand
         if ($message->getText(true) === 'myplaylist') {
 	        $this->telegram->executeCommand('myplaylist');
         }
+
+        return $response;
     }
 }
