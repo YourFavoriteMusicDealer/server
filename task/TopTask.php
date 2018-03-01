@@ -30,7 +30,7 @@ class TopTask extends Task
     $telegraph = $this->getDI()->get('telegraph');
 
     $content = $this->_constructContent($tracks);
-    $title = "Топ $count за " . strtolower($this->_rusMonth[date( "n" ) - 1]) . ' ' . date( "Y" );
+    $title = "Топ $count за " . strtolower($this->_rusMonth[date( "n" ) - 2]) . ' ' . date( "Y" );
 
     $post = $telegraph->createPage($title, $content);
     $postUrl = $post->url;
@@ -40,7 +40,7 @@ class TopTask extends Task
     return \Longman\TelegramBot\Request::sendMessage([
       'chat_id'               => -1001149842026,
       'parse_mode'            => 'Markdown',
-      'text'                  => 'Топ ' . $count . ' за [' . mb_strtolower($this->_rusMonth[date( "n" ) - 1]) . "]($postUrl)"
+      'text'                  => 'Топ ' . $count . ' за [' . mb_strtolower($this->_rusMonth[date( "n" ) - 2]) . "]($postUrl)"
     ]);
   }
 
@@ -116,7 +116,7 @@ class TopTask extends Task
             'href' => $newUrl
           ],
           'children' => [
-            $this->_rusMonth[date( "n" ) - 1] . ' ' . date( "Y" )
+            $this->_rusMonth[date( "n" ) - 2] . ' ' . date( "Y" )
           ]
         ]
       ]
