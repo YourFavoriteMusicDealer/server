@@ -86,7 +86,7 @@ class GenericmessageCommand extends SystemCommand
       ]);
     }
 
-    Request::sendMessage([
+    $response = Request::sendMessage([
       'chat_id' => $message->getChat()->getId(),
       'text'    => "Вот топ 10 треков по мнению моих подписчиков за последний месяц"
     ]);
@@ -105,10 +105,10 @@ class GenericmessageCommand extends SystemCommand
         'title' => $track['title']
       ];
 
-      \Longman\TelegramBot\Request::sendAudio($data);
+      $response = \Longman\TelegramBot\Request::sendAudio($data);
     }
 
-    return true;
+    return $response;
   }
 
   private function _isVoice()

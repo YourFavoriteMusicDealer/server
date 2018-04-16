@@ -176,7 +176,7 @@ class CallbackqueryCommand extends SystemCommand
 		    ['text' => "👎🏻 {$rowTrack['dislikes']}", 'callback_data' => 'dislike'],
 	    ]);
 
-	    Request::editMessageReplyMarkup([
+      $response = Request::editMessageReplyMarkup([
 		    'chat_id' => '@jonkofee_music',
 		    'message_id' => $rowTrack->telegram_message_id,
 		    'reply_markup' => $inline_keyboard
@@ -187,6 +187,6 @@ class CallbackqueryCommand extends SystemCommand
 		    'reply_markup' => $inline_keyboard
 	    ]);
 
-	    return true;
+	    return $response;
     }
 }
