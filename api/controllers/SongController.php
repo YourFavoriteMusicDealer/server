@@ -21,13 +21,13 @@ class SongController extends Controller
 			'img'
 		]);
 
-		$arrTrack['url'] = "http://{$this->request->getServerName()}:{$this->request->getPort()}/song/{$id}/file";
+		$arrTrack['url'] = "http://{$this->request->getServerName()}:{$this->request->getPort()}/song/{$id}/stream";
 
 		return $arrTrack;
 	}
 
 	/**
-	 * @Get('/{id}/file')
+	 * @Get('/{id}/stream')
 	 */
 	public function getFileAction($id)
 	{
