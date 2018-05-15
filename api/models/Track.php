@@ -1,7 +1,7 @@
 <?php
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator\PresenceOf;
+use Longman\TelegramBot\Request;
 
 class Track extends Model
 {
@@ -81,6 +81,17 @@ class Track extends Model
 	public function getDislikes()
 	{
 		return $this->getRating('dislik = true')->count();
+	}
+
+	public function getAudioUrl()
+	{
+		$config = \ConfigIni::getInstance();
+		
+		$telegramFile = Request::getFile([
+			'file_id' => $this->telegram_file_id
+		])->getResult();
+
+		return "https://api.telegram.org/file/bot" . $config->bot->token . "/" . $telegramFile->getFilePath();
 	}
 
 }
