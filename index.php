@@ -4,7 +4,7 @@ use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Db\Adapter\Pdo\Factory;
 
-session_write_close();
+//session_write_close();
 
 require 'vendor/autoload.php';
 
