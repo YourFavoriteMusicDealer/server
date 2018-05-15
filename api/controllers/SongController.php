@@ -39,6 +39,7 @@ class SongController extends Controller
 
 		if ($fp_remote = fopen($telegramUrl, 'rb')) {
 			header("Content-Type: audio/mpeg");
+			header("Content-Disposition: inline; filename=\"{$track->artist} - {$track->title}.mp3\"");
 
 			fpassthru($fp_remote);
 			fclose($fp_remote);
