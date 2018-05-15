@@ -21,7 +21,7 @@ class SongController extends Controller
 			'img'
 		]);
 
-		$arrTrack['audio'] = "http://{$this->request->getServerName()}:{$this->request->getPort()}/song/{$id}/file";
+		$arrTrack['url'] = "http://{$this->request->getServerName()}:{$this->request->getPort()}/song/{$id}/file";
 
 		return $arrTrack;
 	}
