@@ -22,6 +22,22 @@ require 'vendor/autoload.php';
 $debug = (new \Phalcon\Debug())->listen();
 
 $di = new FactoryDefault();
+
+$di->set(
+	'dispatcher',
+	function () {
+		$eventsManager = $this->get('eventsManager');
+
+		$eventsManager->attach('dispatch:beforeExecuteRoute', new \Core\Plugin\PreFlightListener());
+
+		$dispatcher = new Phalcon\Mvc\Dispatcher();
+
+		$dispatcher->setEventsManager($eventsManager);
+
+		return $dispatcher;
+	}
+);
+
 $di->set('config', ConfigIni::getInstance());
 
 $di->set('request', new \Core\Request());
