@@ -7,11 +7,11 @@ class SongController extends Controller
 {
 
 	/**
-	 * @Get('/{telegram_message_id}')
+	 * @Get('/{telegramMessageId}')
 	 */
-	public function getInfoAction($telegram_message_id)
+	public function getInfoAction($telegramMessageId)
 	{
-		$track = Track::findFirstByTelegramMessageId($telegram_message_id);
+		$track = Track::findFirstByTelegramMessageId($telegramMessageId);
 
 		if (!$track) throw new Exception('Такая песня отсутствует', 404);
 
@@ -21,17 +21,17 @@ class SongController extends Controller
 			'img'
 		]);
 
-		$arrTrack['url'] = "http://{$this->request->getServerName()}/song/{$telegram_message_id}/stream";
+		$arrTrack['url'] = "http://{$this->request->getServerName()}/song/{$telegramMessageId}/stream";
 
 		return $arrTrack;
 	}
 
 	/**
-	 * @Get('/{telegram_message_id}/stream')
+	 * @Get('/{telegramMessageId}/stream')
 	 */
-	public function getFileAction($telegram_message_id)
+	public function getFileAction($telegramMessageId)
 	{
-		$track = Track::findFirstByTelegramMessageId($telegram_message_id);
+		$track = Track::findFirstByTelegramMessageId($telegramMessageId);
 
 		if (!$track) throw new Exception('Такая песня отсутствует', 404);
 
