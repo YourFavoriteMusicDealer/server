@@ -22,5 +22,4 @@ ADD conf/enable_mod_rewrite.conf /web/config/conf.d/enable_mod_rewrite.conf
 ADD conf/virtual_hosts/api.conf /web/config/conf.d/api.conf
 ####################################################################################################################
 ####################################################################################################################SSL Cert
-RUN mkdir /etc/ssl/custom
-ADD cert/* /etc/ssl/custom/
+ADD certs/* /etc/ssl/certs/
