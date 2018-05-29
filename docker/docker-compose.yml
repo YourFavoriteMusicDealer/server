@@ -13,7 +13,7 @@ services:
     container_name: jonkofee-music_api
     build: apache+php
     ports:
-      - "420:80"
+      - "80:80"
       - "8000:8000"
     volumes:
         - "../:/app"
