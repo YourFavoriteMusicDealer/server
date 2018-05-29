@@ -3,7 +3,7 @@ FROM nimmis/alpine-apache-php7
 RUN set -xe && \
     apk update && apk upgrade && \
     apk add nano mc && \
-    apk add php7-pcntl php7-posix php7-ctype php7-pdo_pgsql
+    apk add php7-pcntl php7-posix php7-ctype php7-pdo_pgsql apache2-ssl
 ####################################################################################################################
 ####################################################################################################################Run srtipts
 ADD scripts/* /etc/run_always/
