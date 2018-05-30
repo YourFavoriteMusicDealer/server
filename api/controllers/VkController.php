@@ -231,13 +231,11 @@ class VkController extends Controller
 		if (isset($track->album->thumb)) {
 			//Add artcover
 			$img = file_get_contents($track->album->thumb->photo_600);
-			$exif_imagetype = exif_imagetype($track->album->thumb->photo_600);
 
 			$tagData['attached_picture'][0] = [
 				'data' => $img,
 				'picturetypeid' => 'jpg',
-				'description' => "{$track->artist} - {$track->title}",
-				'mime' => image_type_to_mime_type($exif_imagetype)
+				'description' => "{$track->artist} - {$track->title}"
 			];
 		}
 
