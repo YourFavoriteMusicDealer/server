@@ -57,10 +57,10 @@ class CallbackqueryCommand extends SystemCommand
       $fromId = $callback_query->getFrom()->getId();
       $fromUsername = $callback_query->getFrom()->getUsername();
 
-      $telegramFileId = $callback_query->getMessage()->getAudio()->getFileId();
+      $telegramMessageId = $callback_query->getMessage()->getMessageId();
 
-      $rowTrack = \Track::findFirst("telegram_file_id = '$telegramFileId'");
-      if (!$rowTrack) throw new \Exception("track with $telegramFileId not found");
+      $rowTrack = \Track::findFirst("telegram_message_id = '$telegramMessageId'");
+      if (!$rowTrack) throw new \Exception("track with $telegramMessageId not found");
 
       $rowRating = \Rating::findFirst("track_id = {$rowTrack->id} AND user_id = {$fromId}");
 
@@ -95,7 +95,7 @@ class CallbackqueryCommand extends SystemCommand
 
       $sqlQuery = "SELECT track.*, COALESCE(SUM(lik::integer), 0) as likes, COALESCE(SUM(dislik::integer), 0) as dislikes FROM track 
                     LEFT JOIN rating ON track.id = rating.track_id 
-                    WHERE telegram_file_id = '$telegramFileId'
+                    WHERE telegram_message_id = '$telegramMessageId'
                     GROUP BY track.id";
 
       $rowTrack = (new Simple(
