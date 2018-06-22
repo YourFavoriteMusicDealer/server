@@ -37,7 +37,7 @@ class MyplaylistCommand extends SystemCommand
 
     $userId = $message->getFrom()->getId();
 
-    $sqlQuery = "SELECT track.telegram_message_id FROM rating
+    $sqlQuery = "SELECT track.* FROM rating
 					LEFT JOIN track ON track.id = rating.track_id
 					WHERE user_id = $userId AND lik = TRUE";
 
@@ -59,14 +59,14 @@ class MyplaylistCommand extends SystemCommand
     }
 
     foreach ($arr as $item) {
-      $data = [
-        'chat_id' => $message->getChat()->getId(),
-        'from_chat_id' => '@jonkofee_music',
-        'message_id' => $item['telegram_message_id'],
-        'disable_notification' => true
-      ];
+			$data = [
+				'chat_id' => $message->getChat()->getId(),
+				'audio'  => $item['telegram_file_id'],
+				'performer' => $item['artist'],
+				'title' => $item['title']
+			];
 
-      $response = \Longman\TelegramBot\Request::forwardMessage($data);
+			$response = \Longman\TelegramBot\Request::sendAudio($data);
     }
 
     return $response;
